@@ -3,15 +3,17 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { AuthGuard } from '@/components/auth/auth-guard';
 import { Header } from '@/components/fintrack/header';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Search, CheckCircle } from 'lucide-react';
-import Image from 'next/image';
+import { Label } from '@/components/ui/label';
+import { Search, CheckCircle, Plus } from 'lucide-react';
 import { useDrawer } from '@/contexts/drawer-context';
 import type { DrawerApp } from '@/contexts/drawer-context';
+import { useToast } from '@/hooks/use-toast';
 
 const apps: DrawerApp[] = [
   { id: 'think', name: 'Think', logo: '/think-logo.png', href: '#' },
@@ -24,10 +26,40 @@ const apps: DrawerApp[] = [
 export default function AddPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const { addAppToDrawer, isAppInDrawer } = useDrawer();
+  const { toast } = useToast();
+
+  const [newAppName, setNewAppName] = useState('');
+  const [newAppHref, setNewAppHref] = useState('');
 
   const filteredApps = apps.filter(app =>
     app.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const handleAddCustomApp = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newAppName.trim() || !newAppHref.trim()) {
+      toast({
+        variant: 'destructive',
+        title: 'Missing Information',
+        description: 'Please provide both a name and a link.',
+      });
+      return;
+    }
+
+    // A simple way to generate a somewhat unique ID
+    const newAppId = `${newAppName.toLowerCase().replace(/\s+/g, '-')}-${Date.now()}`;
+    
+    const newApp: DrawerApp = {
+      id: newAppId,
+      name: newAppName,
+      href: newAppHref,
+      logo: `https://placehold.co/48x48/cccccc/FFFFFF?text=${newAppName.charAt(0).toUpperCase()}`,
+    };
+
+    addAppToDrawer(newApp);
+    setNewAppName('');
+    setNewAppHref('');
+  };
 
   return (
     <AuthGuard>
@@ -35,6 +67,42 @@ export default function AddPage() {
         <Header />
         <main className="container mx-auto max-w-2xl p-4 flex-1 flex items-center justify-center">
           <div className="w-full space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-center">Add Your Own Link</CardTitle>
+                <CardDescription className="text-center">
+                  Add a custom application or link to your quick access drawer.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <form onSubmit={handleAddCustomApp} className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="appName">Name</Label>
+                    <Input
+                      id="appName"
+                      placeholder="e.g., My Favorite News"
+                      value={newAppName}
+                      onChange={(e) => setNewAppName(e.target.value)}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="appLink">Link</Label>
+                    <Input
+                      id="appLink"
+                      type="url"
+                      placeholder="https://example.com"
+                      value={newAppHref}
+                      onChange={(e) => setNewAppHref(e.target.value)}
+                    />
+                  </div>
+                  <Button type="submit" className="w-full">
+                    <Plus className="mr-2 h-4 w-4" />
+                    Add
+                  </Button>
+                </form>
+              </CardContent>
+            </Card>
+
             <Card>
               <CardHeader>
                 <CardTitle className="text-center">Explore Our Ecosystem</CardTitle>
