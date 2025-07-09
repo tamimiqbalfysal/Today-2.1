@@ -1,18 +1,18 @@
-# **App Name**: Today-2.0 Web
+# **App Name**: TipSplit
 
 ## Core Features:
 
-- Day Display: Display current day of the week.
-- Date Display: Show the current date (day, month, and year).
-- Time Display: Display current time.
-- Quote Display: Present a relevant quote for the day.
-- Dynamic Quote Generation: Use an AI tool to generate relevant quote, matching the mood and date.
+- Bill Input: Input the bill amount and select the desired tip percentage.
+- Tip Calculation: Calculate the tip amount and total bill amount based on the input.
+- Split Input: Allow the user to input the number of people to split the bill between.
+- Split Calculation: Calculate and display the amount each person owes.
 
 ## Style Guidelines:
 
-- Primary color: A deep calming blue (#3F51B5), promoting focus and serenity.
-- Background color: A very light blue (#E8EAF6) which helps to keep focus on the app itself.
-- Accent color: A complementary purple (#7E57C2), that stands out, is distinct from the primary and helps draw attention to actions or important details.
-- Body and headline font: 'Inter' sans-serif for a clean, modern, neutral feel suitable for all content types
-- Clean, minimal layout with a focus on readability. Important information like time and date should be prominently displayed.
-- Subtle animations on time update and quote refresh to give a dynamic feel without being intrusive.
+- Primary color: Vibrant pink (#FF69B4) to convey a playful and energetic feel.
+- Background color: Light pink (#FFE4E1), a very desaturated version of the primary, for a soft and gentle backdrop.
+- Accent color: Purple (#DA70D6), an analogous color, to provide visual contrast and complement the pink tones.
+- Body and headline font: 'Poppins' for a geometric, contemporary feel.
+- Use clear and simple icons for the bill input, tip percentage, and split options.
+- Keep the layout clean and intuitive with clear sections for each step of the calculation process.
+- Add subtle animations or transitions to the results to make the app more engaging and user-friendly.
