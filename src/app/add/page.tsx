@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from 'react';
@@ -14,11 +13,11 @@ import { useDrawer } from '@/contexts/drawer-context';
 import type { DrawerApp } from '@/contexts/drawer-context';
 
 const apps: DrawerApp[] = [
-  { id: 'think', name: 'Think', logo: 'https://placehold.co/48x48.png', href: '#' },
-  { id: 'findit', name: 'Findit', logo: 'https://placehold.co/48x48.png', href: '#' },
-  { id: 'mingle', name: 'Mingle', logo: 'https://placehold.co/48x48.png', href: '#' },
-  { id: 'thankug', name: 'Thanku G', logo: 'https://placehold.co/48x48.png', href: '/thank-you' },
-  { id: 'today', name: 'Today', logo: 'https://placehold.co/48x48.png', href: '/today' },
+  { id: 'think', name: 'Think', logo: '/think-logo.png', href: '#' },
+  { id: 'findit', name: 'Findit', logo: '/findit-logo.png', href: '#' },
+  { id: 'mingle', name: 'Mingle', logo: '/mingle-logo.png', href: '#' },
+  { id: 'thankug', name: 'Thanku G', logo: '/thankug-logo.png', href: '/thank-you' },
+  { id: 'today', name: 'Today', logo: '/today-logo.png', href: '/today' },
 ];
 
 export default function AddPage() {
@@ -60,7 +59,7 @@ export default function AddPage() {
                       return (
                         <div key={app.id} className="flex flex-col items-center justify-between p-4 h-full border rounded-lg space-y-4">
                           <div className="flex flex-col items-center space-y-2 text-center">
-                            <Image src={app.logo} alt={`${app.name} logo`} width={48} height={48} data-ai-hint={app.id} />
+                            <Image src={app.logo} alt={`${app.name} logo`} width={48} height={48} />
                             <p className="mt-2 font-semibold text-lg">{app.name}</p>
                           </div>
                           <div className="w-full mt-auto space-y-2">
