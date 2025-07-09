@@ -71,7 +71,7 @@ export default function AddPage() {
               <CardHeader>
                 <CardTitle className="text-center">Add Your Personal Favourite</CardTitle>
                 <CardDescription className="text-center">
-                  Add a custom application or link to your quick access drawer.
+                  Add a link to your drawer for quick access.
                 </CardDescription>
               </CardHeader>
               <CardContent>
