@@ -105,7 +105,7 @@ export default function AddPage() {
 
             <Card>
               <CardHeader>
-                <CardTitle className="text-center">Explore Our Ecosystem</CardTitle>
+                <CardTitle className="text-center">Explore Our Suggestions</CardTitle>
                 <CardDescription className="text-center">Discover other applications to enhance your experience.</CardDescription>
               </CardHeader>
               <div className="px-6 pb-4">
