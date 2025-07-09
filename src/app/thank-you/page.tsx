@@ -313,7 +313,7 @@ export default function ThankYouPage() {
               <CardHeader>
                 <CardTitle className="text-center">Buy a Gift Code 🎁</CardTitle>
                 <CardDescription className="text-center">
-                  Purchase a gift code to share with a friend.
+                  You can also sell Gift Code.
                 </CardDescription>
               </CardHeader>
               <CardContent>
