@@ -122,9 +122,6 @@ export function ThinkCodeDialog({ open, onOpenChange, userId }: ThinkCodeDialogP
           />
         </form>
         <DialogFooter>
-          <Button variant="outline" onClick={handleCloseDialog} disabled={isVerifying}>
-            Cancel
-          </Button>
           <Button type="submit" form="think-code-form" disabled={isVerifying || !code.trim()}>
             {isVerifying ? 'Verifying...' : 'Submit'}
           </Button>
