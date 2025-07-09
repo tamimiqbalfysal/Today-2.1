@@ -313,7 +313,7 @@ export default function ThankYouPage() {
               <CardHeader>
                 <CardTitle className="text-center">eMarketplace 🎁</CardTitle>
                 <CardDescription className="text-center">
-                  peer to peer
+                  Increase or Decrease Your Share
                 </CardDescription>
               </CardHeader>
               <CardContent>
