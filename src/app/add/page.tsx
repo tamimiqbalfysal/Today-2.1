@@ -69,7 +69,7 @@ export default function AddPage() {
           <div className="w-full space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle className="text-center">Add Your Own Link</CardTitle>
+                <CardTitle className="text-center">Add Your Personal Favourite</CardTitle>
                 <CardDescription className="text-center">
                   Add a custom application or link to your quick access drawer.
                 </CardDescription>
