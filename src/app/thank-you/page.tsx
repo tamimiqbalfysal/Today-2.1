@@ -71,9 +71,6 @@ export default function ThankYouPage() {
   const [isTotalCodesLoading, setIsTotalCodesLoading] = useState(true);
   const [isCelebrating, setIsCelebrating] = useState(false);
   const { width, height } = useWindowSize();
-  const [recipientEmail, setRecipientEmail] = useState('');
-  const [transferCode, setTransferCode] = useState('');
-  const [isTransferring, setIsTransferring] = useState(false);
 
   useEffect(() => {
     if (!db) {
@@ -221,109 +218,6 @@ export default function ThankYouPage() {
     }
   };
 
-  const handleTransferCode = async (event: React.FormEvent) => {
-    event.preventDefault();
-    const cleanRecipientEmail = recipientEmail.trim();
-    const cleanTransferCode = transferCode.trim();
-
-    if (!cleanRecipientEmail || !cleanTransferCode) {
-      toast({
-        variant: 'destructive',
-        title: 'Missing Information',
-        description: 'Please fill out both the recipient email and the gift code.',
-      });
-      return;
-    }
-    
-    if (!db || !user) {
-       toast({
-        variant: 'destructive',
-        title: 'Error',
-        description: 'You must be logged in to transfer a code.',
-      });
-      return;
-    }
-
-    if (cleanRecipientEmail === user.email) {
-      toast({
-        variant: 'destructive',
-        title: 'Cannot Transfer to Self',
-        description: 'You cannot send a gift code to yourself. Use the submission form above instead.',
-      });
-      return;
-    }
-
-    setIsTransferring(true);
-
-    try {
-      // Step 1: Check if the gift code is valid and not yet used.
-      const giftCodeRef = doc(db, 'giftCodes', cleanTransferCode);
-      const giftCodeSnap = await getDoc(giftCodeRef);
-
-      if (!giftCodeSnap.exists() || giftCodeSnap.data()?.isUsed === true) {
-        toast({
-          variant: 'destructive',
-          title: 'Transfer Failed',
-          description: 'This gift code is invalid or has already been used.',
-        });
-        setIsTransferring(false);
-        return;
-      }
-      
-      // Step 2: Find the recipient user by their email address.
-      // NOTE: This requires a Firestore index on the 'email' field in the 'users' collection.
-      const usersRef = collection(db, 'users');
-      const q = query(usersRef, where("email", "==", cleanRecipientEmail));
-      const querySnapshot = await getDocs(q);
-
-      if (querySnapshot.empty) {
-          toast({
-              variant: 'destructive',
-              title: 'Transfer Failed',
-              description: 'No user found with that email address on this platform.',
-          });
-          setIsTransferring(false);
-          return;
-      }
-      
-      const recipientUserDoc = querySnapshot.docs[0];
-      const recipientUserRef = recipientUserDoc.ref;
-      
-      // In a production app, use a transaction to ensure both updates succeed or fail together.
-      // For this prototype, we'll perform sequential updates.
-
-      // Step 3: Mark the gift code as used.
-      await updateDoc(giftCodeRef, { isUsed: true });
-
-      // Step 4: Increment the recipient's redeemed code count.
-      await updateDoc(recipientUserRef, { redeemedGiftCodes: increment(1) });
-      
-      toast({
-        title: 'Transfer Sent!',
-        description: `Your gift code has been successfully sent to ${cleanRecipientEmail}.`,
-      });
-      
-      setRecipientEmail('');
-      setTransferCode('');
-
-    } catch (error: any) {
-      console.error("Error transferring gift code:", error);
-      let description = "An unexpected error occurred during the transfer.";
-      if (error.code === 'permission-denied') {
-        description = "Permission Denied. Please check Firestore security rules. You may also need to create a Firestore index on the 'email' field of the 'users' collection.";
-      } else if (error.code === 'failed-precondition') {
-        description = "The query requires an index. You can create it in the Firebase console. The link to create it might be in your browser's developer console.";
-      }
-      toast({
-        variant: 'destructive',
-        title: 'Error',
-        description: description,
-      });
-    } finally {
-        setIsTransferring(false);
-    }
-  };
-
   const redeemedCodes = user?.redeemedGiftCodes || 0;
   const percentage = totalGiftCodes && totalGiftCodes > 0 ? (redeemedCodes / totalGiftCodes) * 100 : 0;
 
@@ -417,41 +311,15 @@ export default function ThankYouPage() {
             
             <Card>
               <CardHeader>
-                <CardTitle className="text-center">Share a Gift with a Friend 🎁</CardTitle>
+                <CardTitle className="text-center">Buy a Gift Code 🎁</CardTitle>
                 <CardDescription className="text-center">
-                  Want to send one of your gift codes to someone else?
+                  Purchase a gift code to share with a friend.
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <form onSubmit={handleTransferCode} className="space-y-4">
-                  <div className="space-y-2 text-left">
-                    <Label htmlFor="recipientEmail">Recipient's Email</Label>
-                    <Input
-                      id="recipientEmail"
-                      type="email"
-                      placeholder="friend@example.com"
-                      value={recipientEmail}
-                      onChange={(e) => setRecipientEmail(e.target.value)}
-                      disabled={isTransferring}
-                      required
-                    />
-                  </div>
-                  <div className="space-y-2 text-left">
-                    <Label htmlFor="transferCode">Gift Code to Send</Label>
-                    <Input
-                      id="transferCode"
-                      type="text"
-                      placeholder="Enter the gift code"
-                      value={transferCode}
-                      onChange={(e) => setTransferCode(e.target.value)}
-                      disabled={isTransferring}
-                      required
-                    />
-                  </div>
-                  <Button type="submit" className="w-full" disabled={isTransferring || !recipientEmail || !transferCode}>
-                    {isTransferring ? 'Sending...' : 'Send Gift Code'}
-                  </Button>
-                </form>
+                <Button className="w-full">
+                  Buy Gift Code
+                </Button>
               </CardContent>
             </Card>
 
