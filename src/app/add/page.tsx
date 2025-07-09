@@ -80,7 +80,7 @@ export default function AddPage() {
                     <Label htmlFor="appName">Name</Label>
                     <Input
                       id="appName"
-                      placeholder="e.g., My Favorite News"
+                      placeholder="Example"
                       value={newAppName}
                       onChange={(e) => setNewAppName(e.target.value)}
                     />
