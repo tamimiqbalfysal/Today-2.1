@@ -20,7 +20,7 @@ interface DrawerContextType {
 
 const DrawerContext = createContext<DrawerContextType | undefined>(undefined);
 
-const todayApp: DrawerApp = { id: 'today', name: 'Today', logo: '/today-logo.png', href: '/' };
+const todayApp: DrawerApp = { id: 'today', name: 'Today', logo: '/today-logo.png', href: '/today' };
 
 export function DrawerProvider({ children }: { children: ReactNode }) {
   const [drawerApps, setDrawerApps] = useState<DrawerApp[]>([todayApp]);
