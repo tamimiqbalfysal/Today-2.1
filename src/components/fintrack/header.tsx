@@ -212,7 +212,7 @@ export function Header({ isVisible = true }: { isVisible?: boolean }) {
                             variant="ghost"
                             className="group relative w-full justify-start text-lg font-bold"
                             onClick={removeLastAppFromDrawer}
-                            disabled={drawerApps.length === 0}
+                            disabled={drawerApps.length <= 1}
                         >
                             {hoverIndicator}
                             <Trash2 className="mr-4" />

@@ -20,8 +20,10 @@ interface DrawerContextType {
 
 const DrawerContext = createContext<DrawerContextType | undefined>(undefined);
 
+const todayApp: DrawerApp = { id: 'today', name: 'Today', logo: '/today-logo.png', href: '/' };
+
 export function DrawerProvider({ children }: { children: ReactNode }) {
-  const [drawerApps, setDrawerApps] = useState<DrawerApp[]>([]);
+  const [drawerApps, setDrawerApps] = useState<DrawerApp[]>([todayApp]);
   const { toast } = useToast();
 
   const addAppToDrawer = useCallback((appToAdd: DrawerApp) => {
@@ -45,13 +47,19 @@ export function DrawerProvider({ children }: { children: ReactNode }) {
   }, [drawerApps, toast]);
 
   const removeLastAppFromDrawer = useCallback(() => {
-    if (drawerApps.length > 0) {
+    if (drawerApps.length > 1) {
         const removedApp = drawerApps[drawerApps.length - 1];
         setDrawerApps(prevApps => prevApps.slice(0, -1));
         toast({
             variant: 'destructive',
             title: 'Removed from Drawer',
             description: `Removed ${removedApp.name} from your quick access drawer.`,
+        });
+    } else {
+        toast({
+            variant: 'destructive',
+            title: 'Cannot Remove',
+            description: 'The "Today" app cannot be removed.',
         });
     }
   }, [drawerApps, toast]);
