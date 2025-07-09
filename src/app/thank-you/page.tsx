@@ -311,14 +311,14 @@ export default function ThankYouPage() {
             
             <Card>
               <CardHeader>
-                <CardTitle className="text-center">Gift Code Market Place 🎁</CardTitle>
+                <CardTitle className="text-center">eMarketplace 🎁</CardTitle>
                 <CardDescription className="text-center">
                   peer to peer
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <Button className="w-full">
-                  Buy a Gift Code
+                  Buy or Sell
                 </Button>
               </CardContent>
             </Card>
