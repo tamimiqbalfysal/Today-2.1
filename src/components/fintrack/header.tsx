@@ -3,7 +3,7 @@
 
 import { useState } from "react";
 import Link from 'next/link';
-import { Menu, PenSquare, Trash2, User, LogOut, Globe2, PlusCircle } from "lucide-react";
+import { Menu, PenSquare, Trash2, User, LogOut, Home, PlusCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -30,6 +30,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useDrawer } from "@/contexts/drawer-context";
+import Image from "next/image";
 
 const hoverIndicator = <span className="absolute left-0 top-1/2 -translate-y-1/2 h-1/2 w-1 bg-foreground scale-y-0 group-hover:scale-y-100 transition-transform origin-center rounded-r-full" />;
 
@@ -166,7 +167,7 @@ export function Header({ isVisible = true }: { isVisible?: boolean }) {
             <div className="justify-self-center">
               <Link href="/" aria-label="Home">
                 <Button size="icon" variant="ghost" className="rounded-full">
-                  <Globe2 />
+                  <Home />
                 </Button>
               </Link>
             </div>
@@ -186,9 +187,9 @@ export function Header({ isVisible = true }: { isVisible?: boolean }) {
                   <div className="flex-grow py-4 px-4 space-y-4">
                         {drawerApps.map((app) => (
                             <Button asChild size="lg" className="group relative w-full justify-start text-lg font-bold" variant="ghost" key={app.id}>
-                                <Link href={app.href} onClick={() => setIsProfileDrawerOpen(false)}>
+                                <Link href={app.href} onClick={() => setIsProfileDrawerOpen(false)} className="flex items-center">
                                     {hoverIndicator}
-                                    <Globe2 className="mr-4" />
+                                    <Image src={app.logo} alt="" width={20} height={20} className="mr-4" />
                                     {app.name}
                                 </Link>
                             </Button>
@@ -220,6 +221,12 @@ export function Header({ isVisible = true }: { isVisible?: boolean }) {
           <>
             {/* LOGGED OUT STATE */}
             <div className="col-span-3 flex items-center justify-center space-x-2">
+                 <Button asChild variant="ghost">
+                    <Link href="/login">Log In</Link>
+                </Button>
+                <Button asChild>
+                    <Link href="/signup">Sign Up</Link>
+                </Button>
             </div>
           </>
         )}
