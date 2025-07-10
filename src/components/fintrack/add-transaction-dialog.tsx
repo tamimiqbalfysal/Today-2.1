@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState } from "react";
@@ -55,6 +56,8 @@ export function CreatePostForm({ user, onAddPost }: CreatePostFormProps) {
       setContent("");
       clearMedia();
     } catch (error) {
+      // The error is now handled and displayed by the parent component (TodayPage).
+      // We just need to catch it here to ensure the loading state is reset.
       console.error("Error submitting post from form:", error);
     } finally {
       setIsSubmitting(false);

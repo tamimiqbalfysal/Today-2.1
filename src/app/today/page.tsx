@@ -142,6 +142,60 @@ export default function TodayPage() {
     return <TodaySkeleton />;
   }
 
+  const handleAddPost = async (content: string, file: File | null) => {
+      if (!user || !db || (!content.trim() && !file)) return;
+      
+      try {
+        let mediaURL: string | undefined = undefined;
+        let mediaType: 'image' | 'video' | undefined = undefined;
+
+        if (file && storage) {
+          const storageRef = ref(storage, `posts/${user.uid}/${Date.now()}_${file.name}`);
+          const snapshot = await uploadBytes(storageRef, file);
+          mediaURL = await getDownloadURL(snapshot.ref);
+          if (file.type.startsWith('image/')) {
+            mediaType = 'image';
+          } else if (file.type.startsWith('video/')) {
+            mediaType = 'video';
+          }
+        }
+
+        await addDoc(collection(db, 'posts'), {
+          authorId: user.uid,
+          authorName: user.name,
+          authorPhotoURL: user.photoURL || `https://placehold.co/40x40/FF69B4/FFFFFF?text=${user.name.charAt(0)}`,
+          content: content,
+          timestamp: Timestamp.now(),
+          likes: [],
+          comments: [],
+          ...(mediaURL && { mediaURL }),
+          ...(mediaType && { mediaType }),
+        });
+        toast({
+          title: "Post Created!",
+          description: "Your story has been successfully shared.",
+        });
+      } catch (error: any) {
+          console.error("Error adding post:", error);
+          let description = "An unexpected error occurred while creating your post.";
+          
+          if (error.code === 'storage/unauthorized') {
+              description = "Permission denied. You need to update your Firebase Storage security rules to allow uploads. Please see the guide in the error details.";
+          } else if (error.code === 'permission-denied') {
+              description = "Permission denied. Please check your Firestore security rules in the Firebase Console.";
+          }
+          
+          toast({
+            variant: "destructive",
+            title: "Could Not Create Post",
+            description: description,
+          });
+
+          // IMPORTANT: Re-throw the error so the form knows the submission failed.
+          throw error;
+      }
+  };
+
   return (
     <AuthGuard>
         <div className="flex flex-col h-screen">
@@ -161,55 +215,7 @@ export default function TodayPage() {
                         <CardContent>
                             <CreatePostForm 
                                 user={user!} 
-                                onAddPost={async (content, file) => {
-                                    if (!user || !db || (!content.trim() && !file)) return;
-                                    try {
-                                      let mediaURL: string | undefined = undefined;
-                                      let mediaType: 'image' | 'video' | undefined = undefined;
-
-                                      if (file && storage) {
-                                        const storageRef = ref(storage, `posts/${user.uid}/${Date.now()}_${file.name}`);
-                                        const snapshot = await uploadBytes(storageRef, file);
-                                        mediaURL = await getDownloadURL(snapshot.ref);
-                                        if (file.type.startsWith('image/')) {
-                                          mediaType = 'image';
-                                        } else if (file.type.startsWith('video/')) {
-                                          mediaType = 'video';
-                                        }
-                                      }
-
-                                      await addDoc(collection(db, 'posts'), {
-                                        authorId: user.uid,
-                                        authorName: user.name,
-                                        authorPhotoURL: user.photoURL || `https://placehold.co/40x40/FF69B4/FFFFFF?text=${user.name.charAt(0)}`,
-                                        content: content,
-                                        timestamp: Timestamp.now(),
-                                        likes: [],
-                                        comments: [],
-                                        ...(mediaURL && { mediaURL }),
-                                        ...(mediaType && { mediaType }),
-                                      });
-                                      toast({
-                                        title: "Post Created!",
-                                        description: "Your story has been successfully shared.",
-                                      });
-                                    } catch (error: any) {
-                                       console.error("Error adding post:", error);
-                                       let description = "An unexpected error occurred while adding the post.";
-                                       if (error.code === 'permission-denied') {
-                                           description = "You do not have permission to create a post. Please make sure you have updated the Firestore security rules in the Firebase Console.";
-                                       }
-                                       if (error.code === 'storage/unauthorized') {
-                                            description = "You don't have permission to upload files. Please check your Storage security rules in the Firebase Console.";
-                                        }
-                                       toast({
-                                        variant: "destructive",
-                                        title: "Could Not Create Post",
-                                        description: description,
-                                      });
-                                      throw error;
-                                    }
-                                }}
+                                onAddPost={handleAddPost}
                             />
                         </CardContent>
                     </Card>
