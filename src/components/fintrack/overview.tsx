@@ -1,6 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import type { User } from "@/lib/types";
+import { MapPin } from "lucide-react";
 
 interface ProfileCardProps {
   user: User;
@@ -17,6 +18,12 @@ export function ProfileCard({ user }: ProfileCardProps) {
         <CardTitle className="text-2xl text-primary font-headline">{user.name}</CardTitle>
         <CardDescription>@{user.username}</CardDescription>
         <CardDescription className="text-muted-foreground">{user.email}</CardDescription>
+        {user.country && (
+            <CardDescription className="text-muted-foreground flex items-center pt-1">
+                <MapPin className="mr-1 h-4 w-4" />
+                {user.country}
+            </CardDescription>
+        )}
       </CardHeader>
       <CardContent>
         <div className="text-center text-sm text-muted-foreground">
