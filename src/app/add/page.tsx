@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { AuthGuard } from '@/components/auth/auth-guard';
@@ -114,7 +114,6 @@ export default function AddPage() {
                       />
                     </div>
                     <Button type="submit" className="w-full">
-                      <Plus className="mr-2 h-4 w-4" />
                       Add
                     </Button>
                   </form>
