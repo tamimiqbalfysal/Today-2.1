@@ -38,9 +38,6 @@ export default function ProfilePage() {
           <main className="container mx-auto max-w-2xl p-4 flex-1 flex flex-col items-center justify-center">
              <div className="w-full max-w-sm space-y-6">
                 <ProfileCard user={user} />
-                <Button asChild variant="outline" className="w-full">
-                    <Link href="/">Today</Link>
-                </Button>
             </div>
           </main>
         </div>
