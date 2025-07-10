@@ -117,10 +117,7 @@ export default function TodayPage() {
           return;
       }
       try {
-          // Delete from Firestore
           await deleteDoc(doc(db, 'posts', postId));
-
-          // Delete media from Storage if it exists
           if (mediaUrl) {
               const storageRef = ref(storage, mediaUrl);
               await deleteObject(storageRef);
@@ -131,7 +128,8 @@ export default function TodayPage() {
           let description = "An unexpected error occurred while deleting the post.";
           if (error.code === 'permission-denied') {
               description = "You do not have permission to delete this post.";
-          } else if (error.code === 'storage/object-not-found') {
+          }
+          if (error.code === 'storage/object-not-found') {
               console.warn("Media file not found in storage, but deleting post document anyway.");
           } else if (error.code?.startsWith('storage/')) {
               description = "Could not delete the media file associated with the post.";
