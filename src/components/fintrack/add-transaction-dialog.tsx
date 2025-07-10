@@ -5,7 +5,6 @@ import type { User } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Textarea } from "@/components/ui/textarea";
-import Link from "next/link";
 import { Input } from "../ui/input";
 import { Paperclip, X } from "lucide-react";
 import Image from "next/image";
@@ -110,9 +109,6 @@ export function CreatePostForm({ user, onAddPost }: CreatePostFormProps) {
                 </div>
             </Button>
             <div className="flex gap-2">
-                <Button asChild variant="outline">
-                    <Link href="/">Today</Link>
-                </Button>
                 <Button type="submit" disabled={isSubmitting || (!content.trim() && !mediaFile)}>
                     {isSubmitting ? "Posting..." : "Post"}
                 </Button>
