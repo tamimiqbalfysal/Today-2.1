@@ -1,6 +1,7 @@
+
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { AuthGuard } from '@/components/auth/auth-guard';
@@ -25,9 +26,24 @@ export default function AddPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const { addAppToDrawer, isAppInDrawer } = useDrawer();
   const { toast } = useToast();
-
   const [newAppName, setNewAppName] = useState('');
   const [newAppHref, setNewAppHref] = useState('');
+
+  const [isHeaderVisible, setIsHeaderVisible] = useState(true);
+  const lastScrollY = useRef(0);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  const handleScroll = () => {
+    if (scrollContainerRef.current) {
+      const currentScrollY = scrollContainerRef.current.scrollTop;
+      if (currentScrollY > lastScrollY.current && currentScrollY > 50) {
+        setIsHeaderVisible(false);
+      } else {
+        setIsHeaderVisible(true);
+      }
+      lastScrollY.current = currentScrollY;
+    }
+  };
 
   const filteredApps = apps.filter(app =>
     app.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -44,7 +60,6 @@ export default function AddPage() {
       return;
     }
 
-    // A simple way to generate a somewhat unique ID
     const newAppId = `${newAppName.toLowerCase().replace(/\s+/g, '-')}-${Date.now()}`;
     
     const newApp: DrawerApp = {
@@ -61,99 +76,105 @@ export default function AddPage() {
 
   return (
     <AuthGuard>
-      <div className="flex flex-col min-h-screen">
-        <Header />
-        <main className="container mx-auto max-w-2xl p-4 flex-1 flex items-center justify-center">
-          <div className="w-full space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-center">Add Your Personal Favourite</CardTitle>
-                <CardDescription className="text-center">
-                  Add a link to your drawer for quick access.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <form onSubmit={handleAddCustomApp} className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="appName">Name</Label>
-                    <Input
-                      id="appName"
-                      placeholder="Example"
-                      value={newAppName}
-                      onChange={(e) => setNewAppName(e.target.value)}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="appLink">Link</Label>
-                    <Input
-                      id="appLink"
-                      type="url"
-                      placeholder="https://example.com"
-                      value={newAppHref}
-                      onChange={(e) => setNewAppHref(e.target.value)}
-                    />
-                  </div>
-                  <Button type="submit" className="w-full">
-                    <Plus className="mr-2 h-4 w-4" />
-                    Add
-                  </Button>
-                </form>
-              </CardContent>
-            </Card>
+      <div className="flex flex-col h-screen">
+        <Header isVisible={isHeaderVisible} />
+        <main 
+          ref={scrollContainerRef}
+          onScroll={handleScroll}
+          className="flex-1 overflow-y-auto"
+        >
+          <div className="container mx-auto max-w-2xl p-4 flex flex-col items-center justify-center">
+            <div className="w-full space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-center">Add Your Personal Favourite</CardTitle>
+                  <CardDescription className="text-center">
+                    Add a link to your drawer for quick access.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <form onSubmit={handleAddCustomApp} className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="appName">Name</Label>
+                      <Input
+                        id="appName"
+                        placeholder="Example"
+                        value={newAppName}
+                        onChange={(e) => setNewAppName(e.target.value)}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="appLink">Link</Label>
+                      <Input
+                        id="appLink"
+                        type="url"
+                        placeholder="https://example.com"
+                        value={newAppHref}
+                        onChange={(e) => setNewAppHref(e.target.value)}
+                      />
+                    </div>
+                    <Button type="submit" className="w-full">
+                      <Plus className="mr-2 h-4 w-4" />
+                      Add
+                    </Button>
+                  </form>
+                </CardContent>
+              </Card>
 
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-center">Our Suggestions</CardTitle>
-                <CardDescription className="text-center">Access instantly.</CardDescription>
-              </CardHeader>
-              <div className="px-6 pb-4">
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                  <Input
-                    type="search"
-                    placeholder="Search applications..."
-                    className="w-full pl-10"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                  />
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-center">Our Suggestions</CardTitle>
+                  <CardDescription className="text-center">Access instantly.</CardDescription>
+                </CardHeader>
+                <div className="px-6 pb-4">
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                    <Input
+                      type="search"
+                      placeholder="Search applications..."
+                      className="w-full pl-10"
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                  </div>
                 </div>
-              </div>
-              <CardContent>
-                {filteredApps.length > 0 ? (
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    {filteredApps.map((app) => {
-                      const isAdded = isAppInDrawer(app.id);
-                      return (
-                        <div key={app.id} className="flex flex-col items-center justify-between p-4 h-full border rounded-lg space-y-4">
-                          <div className="flex flex-col items-center space-y-2 text-center">
-                            <Image src={app.logo} alt={`${app.name} logo`} width={48} height={48} />
-                            <p className="mt-2 font-semibold text-lg">{app.name}</p>
+                <CardContent>
+                  {filteredApps.length > 0 ? (
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                      {filteredApps.map((app) => {
+                        const isAdded = isAppInDrawer(app.id);
+                        return (
+                          <div key={app.id} className="flex flex-col items-center justify-between p-4 h-full border rounded-lg space-y-4">
+                            <div className="flex flex-col items-center space-y-2 text-center">
+                              <Image src={app.logo} alt={`${app.name} logo`} width={48} height={48} />
+                              <p className="mt-2 font-semibold text-lg">{app.name}</p>
+                            </div>
+                            <div className="w-full mt-auto space-y-2">
+                              <Button asChild className="w-full" variant="outline">
+                                <Link href={app.href}>View</Link>
+                              </Button>
+                              <Button
+                                onClick={() => addAppToDrawer(app)}
+                                disabled={isAdded}
+                                className="w-full"
+                                variant={isAdded ? 'secondary' : 'default'}
+                              >
+                                {isAdded ? <CheckCircle className="mr-2" /> : null}
+                                {isAdded ? 'Added' : 'Add'}
+                              </Button>
+                            </div>
                           </div>
-                          <div className="w-full mt-auto space-y-2">
-                            <Button asChild className="w-full" variant="outline">
-                              <Link href={app.href}>View</Link>
-                            </Button>
-                            <Button
-                              onClick={() => addAppToDrawer(app)}
-                              disabled={isAdded}
-                              className="w-full"
-                              variant={isAdded ? 'secondary' : 'default'}
-                            >
-                              {isAdded ? <CheckCircle className="mr-2" /> : null}
-                              {isAdded ? 'Added' : 'Add'}
-                            </Button>
-                          </div>
-                        </div>
-                      )
-                    })}
-                  </div>
-                ) : (
-                  <div className="text-center text-muted-foreground py-8">
-                    <p>No applications found.</p>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
+                        )
+                      })}
+                    </div>
+                  ) : (
+                    <div className="text-center text-muted-foreground py-8">
+                      <p>No applications found.</p>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </main>
       </div>
