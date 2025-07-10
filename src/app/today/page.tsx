@@ -179,16 +179,17 @@ export default function TodayPage() {
           console.error("Error adding post:", error);
           let description = "An unexpected error occurred while creating your post.";
           
-          if (error.code === 'storage/unauthorized') {
-              description = "Permission denied. You need to update your Firebase Storage security rules to allow uploads. Please see the guide in the error details.";
+          if (error.code === 'storage/retry-limit-exceeded' || error.code === 'storage/unauthorized') {
+            description = `Action Required: Your Firebase Storage security rules are preventing file uploads. Please go to the Firebase Console, navigate to Storage > Rules, and update your rules to allow writes. For example: "allow write: if request.auth != null && request.resource.size < 5 * 1024 * 1024;"`;
           } else if (error.code === 'permission-denied') {
-              description = "Permission denied. Please check your Firestore security rules in the Firebase Console.";
+            description = "Permission denied. Please check your Firestore security rules in the Firebase Console.";
           }
           
           toast({
             variant: "destructive",
             title: "Could Not Create Post",
             description: description,
+            duration: 9000
           });
 
           // IMPORTANT: Re-throw the error so the form knows the submission failed.
