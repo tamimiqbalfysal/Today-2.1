@@ -12,10 +12,12 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useAuth } from '@/contexts/auth-context';
 import { useToast } from '@/hooks/use-toast';
 import { isFirebaseConfigured } from '@/lib/firebase';
+import { countries } from '@/lib/countries';
 
 const signupFormSchema = z.object({
   name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
@@ -25,6 +27,7 @@ const signupFormSchema = z.object({
     .regex(/^[a-zA-Z0-9_]+$/, { message: 'Username can only contain letters, numbers, and underscores.' }),
   email: z.string().email({ message: 'Please enter a valid email.' }),
   password: z.string().min(8, { message: 'Password must be at least 8 characters.' }),
+  country: z.string({ required_error: 'Please select a country.' }),
 });
 
 type SignupFormValues = z.infer<typeof signupFormSchema>;
@@ -78,7 +81,6 @@ export default function SignupPage() {
   const [showFirebaseWarning, setShowFirebaseWarning] = useState(false);
 
   useEffect(() => {
-    // This check runs only on the client after the component mounts
     setShowFirebaseWarning(process.env.NODE_ENV === 'development' && !isFirebaseConfigured);
   }, []);
 
@@ -94,7 +96,7 @@ export default function SignupPage() {
 
   async function onSubmit(data: SignupFormValues) {
     try {
-      await signup(data.name, data.username, data.email, data.password);
+      await signup(data.name, data.username, data.email, data.password, data.country);
     } catch (error: any) {
       const errorCode = error.code;
       let description = 'An unexpected error occurred. Please try again.';
@@ -130,7 +132,7 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen">
+    <div className="flex items-center justify-center min-h-screen py-12">
       <Card className="w-full max-w-sm mx-auto">
         <CardHeader>
           <CardTitle className="text-2xl font-headline text-center text-primary">Join the Adventure!</CardTitle>
@@ -190,6 +192,30 @@ export default function SignupPage() {
                       <FormControl>
                         <Input type="password" placeholder="••••••••" {...field} />
                       </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="country"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Country</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select your country" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {countries.map((country) => (
+                            <SelectItem key={country.code} value={country.name}>
+                              {country.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                       <FormMessage />
                     </FormItem>
                   )}

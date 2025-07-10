@@ -14,7 +14,7 @@ interface AuthContextType {
   loading: boolean;
   login: (email: string, password:string) => Promise<void>;
   logout: () => Promise<void>;
-  signup: (name: string, username: string, email: string, password: string) => Promise<void>;
+  signup: (name: string, username: string, email: string, password: string, country: string) => Promise<void>;
   deleteAccount: (password: string) => Promise<void>;
 }
 
@@ -32,7 +32,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
     const unsubscribeAuth = onAuthStateChanged(auth, (firebaseUser) => {
       if (firebaseUser) {
-        // User is signed in, listen for their profile changes from Firestore
         const userDocRef = doc(db, 'users', firebaseUser.uid);
         const unsubscribeFirestore = onSnapshot(userDocRef, (doc) => {
           setLoading(true);
@@ -50,10 +49,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
               paymentAccountName: firestoreData.paymentAccountName,
               paymentAccountNumber: firestoreData.paymentAccountNumber,
               paymentNotes: firestoreData.paymentNotes,
+              country: firestoreData.country,
             });
           } else {
-            // This case might happen if Firestore doc creation fails during signup
-            // Or for users that existed before the users collection was standard.
             setUser({
               uid: firebaseUser.uid,
               name: firebaseUser.displayName || 'Anonymous',
@@ -69,15 +67,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             setLoading(false);
         });
 
-        return () => unsubscribeFirestore(); // Cleanup Firestore listener
+        return () => unsubscribeFirestore();
       } else {
-        // User is signed out
         setUser(null);
         setLoading(false);
       }
     });
 
-    return () => unsubscribeAuth(); // Cleanup auth listener
+    return () => unsubscribeAuth();
   }, []);
 
   const login = async (email: string, password: string) => {
@@ -90,7 +87,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     router.push('/');
   };
 
-  const signup = async (name: string, username: string, email: string, password: string) => {
+  const signup = async (name: string, username: string, email: string, password: string, country: string) => {
     if (!auth || !db) {
         const error = new Error("Firebase is not configured. Please add your Firebase project configuration to a .env file.");
         (error as any).code = 'auth/firebase-not-configured';
@@ -124,6 +121,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 username: lowerCaseUsername,
                 email: email,
                 photoURL: photoURL,
+                country: country,
                 redeemedGiftCodes: 0,
                 redeemedThinkCodes: 0,
             });

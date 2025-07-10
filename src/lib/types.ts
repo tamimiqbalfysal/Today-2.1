@@ -12,6 +12,7 @@ export interface User {
   paymentAccountName?: string;
   paymentAccountNumber?: string;
   paymentNotes?: string;
+  country?: string;
 }
 
 export interface Post {
