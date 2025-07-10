@@ -1,30 +1,73 @@
+
 "use client"
 
 import type { Post } from "@/lib/types";
 import { formatDistanceToNow } from 'date-fns';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Heart, MessageCircle } from "lucide-react";
+import { Heart, MessageCircle, Trash2 } from "lucide-react";
 import Image from "next/image";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 interface PostCardProps {
   post: Post;
+  currentUserId?: string;
+  onDelete?: (postId: string, mediaUrl?: string) => void;
 }
 
-function PostCard({ post }: PostCardProps) {
+function PostCard({ post, currentUserId, onDelete }: PostCardProps) {
     const timestamp = post.timestamp?.toDate ? post.timestamp.toDate() : new Date();
+    const isAuthor = post.authorId === currentUserId;
+    const authorInitial = post.authorName ? post.authorName.charAt(0) : 'U';
 
     return (
         <div 
-            className="bg-card p-6 rounded-2xl w-full shadow-md transition-shadow hover:shadow-lg border-4 border-black"
+            className="bg-card p-6 rounded-2xl w-full shadow-md transition-shadow hover:shadow-lg border-4 border-black relative"
         >
+            {isAuthor && onDelete && (
+                 <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                         <Button variant="ghost" size="icon" className="absolute top-4 right-4 text-muted-foreground hover:text-destructive">
+                            <Trash2 className="h-5 w-5" />
+                        </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                        <AlertDialogHeader>
+                        <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                            This action cannot be undone. This will permanently delete your post.
+                        </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction
+                            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                            onClick={() => onDelete(post.id, post.mediaURL)}
+                        >
+                            Delete
+                        </AlertDialogAction>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
+            )}
+
             <div className="flex items-center space-x-4 mb-4">
                 <Avatar className="w-12 h-12 border-2 border-primary/50">
                     <AvatarImage src={post.authorPhotoURL} alt={post.authorName} />
-                    <AvatarFallback className="text-xl bg-secondary text-secondary-foreground">{post.authorName.charAt(0)}</AvatarFallback>
+                    <AvatarFallback className="text-xl bg-secondary text-secondary-foreground">{authorInitial}</AvatarFallback>
                 </Avatar>
                 <div>
-                    <p className="font-semibold text-lg text-orange-500">{post.authorName}</p>
+                    <p className="font-semibold text-lg text-primary">{post.authorName || 'Anonymous'}</p>
                     <p className="text-sm text-muted-foreground">
                         {formatDistanceToNow(timestamp, { addSuffix: true })}
                     </p>
@@ -60,12 +103,12 @@ function PostCard({ post }: PostCardProps) {
 
 interface PostFeedProps {
   posts: Post[];
-  scrollContainerRef: React.RefObject<HTMLDivElement>;
-  onScroll: () => void;
+  currentUserId?: string;
+  onDeletePost: (postId: string, mediaUrl?: string) => void;
 }
 
-export function PostFeed({ posts, scrollContainerRef, onScroll }: PostFeedProps) {
-  if (!posts.length) {
+export function PostFeed({ posts, currentUserId, onDeletePost }: PostFeedProps) {
+  if (!posts || posts.length === 0) {
     return (
       <div className="text-center text-muted-foreground p-8 border-2 border-dashed rounded-lg">
         <h3 className="text-lg font-semibold font-headline">No tales yet!</h3>
@@ -75,11 +118,9 @@ export function PostFeed({ posts, scrollContainerRef, onScroll }: PostFeedProps)
   }
 
   return (
-    <div ref={scrollContainerRef} onScroll={onScroll} className="h-full overflow-y-auto snap-y snap-mandatory no-scrollbar scroll-smooth">
+    <div className="space-y-4">
       {posts.map((post) => (
-        <div key={post.id} className="h-full w-full snap-center flex items-center justify-center shrink-0 p-4">
-          <PostCard post={post} />
-        </div>
+          <PostCard key={post.id} post={post} currentUserId={currentUserId} onDelete={onDeletePost} />
       ))}
     </div>
   );
