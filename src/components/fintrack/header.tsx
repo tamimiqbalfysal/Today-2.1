@@ -87,25 +87,11 @@ export function Header({ isVisible = true }: { isVisible?: boolean }) {
                       </SheetHeader>
                       <div className="flex-grow py-4 px-4 space-y-4">
                           <Button asChild size="lg" className="group relative w-full justify-start text-lg font-bold" variant="ghost">
-                              <Link href="/today" onClick={() => setIsNavDrawerOpen(false)}>
-                                  {hoverIndicator}
-                                  <PenSquare className="mr-4" />
-                                  Create Post
-                              </Link>
-                          </Button>
-                          <Button asChild size="lg" className="group relative w-full justify-start text-lg font-bold" variant="ghost">
                             <Link href="/profile" onClick={() => setIsNavDrawerOpen(false)}>
                                 {hoverIndicator}
                                 <User className="mr-4" />
                                 Profile
                             </Link>
-                          </Button>
-                           <Button asChild size="lg" className="group relative w-full justify-start text-lg font-bold" variant="ghost">
-                              <Link href="/add" onClick={() => setIsNavDrawerOpen(false)}>
-                                  {hoverIndicator}
-                                  <PlusCircle className="mr-4" />
-                                  Add
-                              </Link>
                           </Button>
                           <AlertDialog>
                             <AlertDialogTrigger asChild>
