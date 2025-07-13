@@ -104,15 +104,63 @@ function PostCard({ post, currentUserId, onDelete }: PostCardProps) {
 interface PostFeedProps {
   posts: Post[];
   currentUserId?: string;
-  onDeletePost: (postId: string, mediaUrl?: string) => void;
+  onDeletePost?: (postId: string, mediaUrl?: string) => void;
+  scrollContainerRef?: React.RefObject<HTMLDivElement>;
+  onScroll?: () => void;
+  enableScrollSnap?: boolean;
 }
 
-export function PostFeed({ posts, currentUserId, onDeletePost }: PostFeedProps) {
+export function PostFeed({ 
+  posts, 
+  currentUserId, 
+  onDeletePost, 
+  scrollContainerRef,
+  onScroll,
+  enableScrollSnap = false 
+}: PostFeedProps) {
   if (!posts || posts.length === 0) {
     return (
       <div className="text-center text-muted-foreground p-8 border-2 border-dashed rounded-lg">
         <h3 className="text-lg font-semibold font-headline">No tales yet!</h3>
         <p className="text-sm">Be the first to share something magical!</p>
+      </div>
+    );
+  }
+
+  if (enableScrollSnap) {
+    return (
+      <div 
+        ref={scrollContainerRef}
+        onScroll={onScroll}
+        style={{ 
+          height: '100%',
+          overflowY: 'auto',
+          scrollSnapType: 'y mandatory',
+          scrollBehavior: 'smooth'
+        }}
+      >
+        {posts.map((post, index) => (
+          <div 
+            key={post.id} 
+            style={{ 
+              height: '100vh',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              scrollSnapAlign: 'start',
+              scrollSnapStop: 'always',
+              padding: '0 1rem'
+            }}
+          >
+            <div style={{ width: '100%', maxWidth: '32rem' }}>
+              <PostCard 
+                post={post} 
+                currentUserId={currentUserId} 
+                onDelete={onDeletePost} 
+              />
+            </div>
+          </div>
+        ))}
       </div>
     );
   }

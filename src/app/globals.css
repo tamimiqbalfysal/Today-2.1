@@ -116,4 +116,20 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+  
+  .snap-y {
+    scroll-snap-type: y mandatory;
+  }
+  
+  .snap-start {
+    scroll-snap-align: start;
+  }
+  
+  .snap-center {
+    scroll-snap-align: center;
+  }
+  
+  .snap-mandatory {
+    scroll-snap-type: y mandatory;
+  }
 }
