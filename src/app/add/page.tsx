@@ -14,12 +14,19 @@ import { Search, CheckCircle, Plus } from 'lucide-react';
 import { useDrawer } from '@/contexts/drawer-context';
 import type { DrawerApp } from '@/contexts/drawer-context';
 import { useToast } from '@/hooks/use-toast';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 
 const apps: DrawerApp[] = [
   { id: 'think', name: 'Think', logo: '/think-logo.png', href: '#' },
   { id: 'findit', name: 'Findit', logo: '/findit-logo.png', href: '#' },
   { id: 'mingle', name: 'Mingle', logo: '/mingle-logo.png', href: '#' },
   { id: 'thankug', name: 'Thanku G', logo: '/thankug-logo.png', href: '/thank-you' },
+];
+
+const moreApps: DrawerApp[] = [
+  { id: 'app1', name: 'App One', logo: 'https://placehold.co/48x48/ff0000/FFFFFF?text=A1', href: '#' },
+  { id: 'app2', name: 'App Two', logo: 'https://placehold.co/48x48/00ff00/FFFFFF?text=A2', href: '#' },
+  { id: 'app3', name: 'App Three', logo: 'https://placehold.co/48x48/0000ff/FFFFFF?text=A3', href: '#' },
 ];
 
 export default function AddPage() {
@@ -32,6 +39,7 @@ export default function AddPage() {
   const [isHeaderVisible, setIsHeaderVisible] = useState(true);
   const lastScrollY = useRef(0);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [showMoreApps, setShowMoreApps] = useState(false);
 
   const handleScroll = () => {
     if (scrollContainerRef.current) {
@@ -169,6 +177,27 @@ export default function AddPage() {
                   ) : (
                     <div className="text-center text-muted-foreground py-8">
                       <p>No applications found.</p>
+                    </div>
+                  )}
+                  <div className="text-center mt-4">
+                    <Button variant="ghost" onClick={() => setShowMoreApps(!showMoreApps)}>
+                      {showMoreApps ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+                    </Button>
+                  </div>
+                  {showMoreApps && (
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
+                      {moreApps.map((app) => {
+                        const isAdded = isAppInDrawer(app.id);
+                        return (
+                          <div key={app.id} className="flex flex-col items-center justify-between p-4 h-full border rounded-lg space-y-4">
+                            <div className="flex flex-col items-center space-y-2 text-center">
+                              <Image src={app.logo} alt={`${app.name} logo`} width={48} height={48} />
+                              <p className="mt-2 font-semibold text-lg">{app.name}</p>
+                            </div>
+                             {/* Add button/link functionality similar to the apps above if needed */}
+                          </div>
+                        );
+                      })}
                     </div>
                   )}
                 </CardContent>
