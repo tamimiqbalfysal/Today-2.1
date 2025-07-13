@@ -120,11 +120,12 @@ export default function TodayPage() {
     <AuthGuard>
         <div className="flex flex-col h-screen">
           <Header isVisible={isHeaderVisible} />
-          <main className="container mx-auto max-w-5xl p-4 flex-1 overflow-hidden">
+          <main className="flex-1 overflow-hidden">
             <PostFeed 
               posts={posts} 
               scrollContainerRef={scrollContainerRef}
               onScroll={handleScroll}
+              isFullScreen={true}
             />
           </main>
           <ThinkCodeDialog
