@@ -70,7 +70,7 @@ export default function HomePage() {
               </SheetDescription>
             </SheetHeader>
             <div className="py-4 space-y-2">
-              <Button variant="secondary" className="w-full justify-start text-lg font-bold">
+              <Button variant="ghost" className="w-full justify-start text-lg font-bold">
                 Today
               </Button>
               <Button variant="ghost" className="w-full justify-start text-base">
