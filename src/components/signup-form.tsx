@@ -137,7 +137,7 @@ export function SignUpForm() {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder="Name" {...field} />
+                  <Input placeholder="Name" {...field} className="hover:bg-accent hover:text-foreground" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -152,6 +152,7 @@ export function SignUpForm() {
                   <Input
                     placeholder="Username"
                     {...field}
+                    className="hover:bg-accent hover:text-foreground"
                   />
                 </FormControl>
                 <FormMessage />
@@ -168,6 +169,7 @@ export function SignUpForm() {
                     type="email"
                     placeholder="Email"
                     {...field}
+                    className="hover:bg-accent hover:text-foreground"
                   />
                 </FormControl>
                 <FormMessage />
@@ -211,8 +213,9 @@ export function SignUpForm() {
                       <Button
                         variant={"outline"}
                         className={cn(
-                          "w-full justify-center text-center font-normal border-0 border-b rounded-none hover:text-foreground",
-                          !field.value && "text-muted-foreground hover:text-foreground"
+                          "w-full justify-center text-center font-normal border-0 border-b rounded-none",
+                          !field.value && "text-muted-foreground",
+                          "hover:bg-accent hover:text-foreground"
                         )}
                       >
                         {field.value ? (
@@ -226,6 +229,9 @@ export function SignUpForm() {
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="center">
                     <Calendar
+                      captionLayout="dropdown-buttons"
+                      fromYear={1900}
+                      toYear={new Date().getFullYear()}
                       mode="single"
                       selected={field.value}
                       onSelect={field.onChange}
@@ -250,6 +256,7 @@ export function SignUpForm() {
                     type="password"
                     placeholder="Password"
                     {...field}
+                    className="hover:bg-accent hover:text-foreground"
                   />
                 </FormControl>
                 <FormMessage />
@@ -266,6 +273,7 @@ export function SignUpForm() {
                     type="password"
                     placeholder="Confirm Password"
                     {...field}
+                    className="hover:bg-accent hover:text-foreground"
                   />
                 </FormControl>
                 <FormMessage />
