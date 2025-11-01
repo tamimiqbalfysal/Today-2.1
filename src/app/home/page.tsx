@@ -1,8 +1,9 @@
 'use client';
 
-import { useFirebase } from '@/firebase';
+import { useFirebase, useCollection, useMemoFirebase } from '@/firebase';
 import { useRouter } from 'next/navigation';
 import { Home, Menu, Bell, Trash2, PlusCircle } from 'lucide-react';
+import { collection } from 'firebase/firestore';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -14,9 +15,22 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 
+interface Favourite {
+    name: string;
+    link: string;
+}
+
 export default function HomePage() {
-  const { auth } = useFirebase();
+  const { auth, firestore, user } = useFirebase();
   const router = useRouter();
+
+  const favouritesQuery = useMemoFirebase(() => {
+    if (!user || !firestore) return null;
+    return collection(firestore, 'users', user.uid, 'favourites');
+  }, [firestore, user]);
+
+  const { data: favourites } = useCollection<Favourite>(favouritesQuery);
+
 
   const handleSignOut = async () => {
     if (auth) {
@@ -73,6 +87,13 @@ export default function HomePage() {
               <Button variant="ghost" className="w-full justify-start text-lg font-bold">
                 Today
               </Button>
+              {favourites?.map((fav) => (
+                <Button key={fav.id} variant="ghost" className="w-full justify-start text-base" asChild>
+                  <a href={fav.link} target="_blank" rel="noopener noreferrer">
+                    {fav.name}
+                  </a>
+                </Button>
+              ))}
               <Button variant="ghost" className="w-full justify-start text-base">
                 <Trash2 className="mr-2 h-5 w-5" />
                 Remove

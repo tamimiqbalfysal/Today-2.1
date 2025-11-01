@@ -36,6 +36,31 @@
         "country",
         "dateOfBirth"
       ]
+    },
+    "Favourite": {
+      "title": "Favourite",
+      "type": "object",
+      "description": "Represents a favourite link saved by a user.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The display name for the favourite link."
+        },
+        "link": {
+          "type": "string",
+          "description": "The URL of the favourite link.",
+          "format": "uri"
+        },
+        "userId": {
+          "type": "string",
+          "description": "The ID of the user who owns this favourite."
+        }
+      },
+      "required": [
+        "name",
+        "link",
+        "userId"
+      ]
     }
   },
   "auth": {
@@ -58,6 +83,26 @@
             {
               "name": "userId",
               "description": "The Firebase Auth UID of the user."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/favourites/{favouriteId}",
+        "definition": {
+          "entityName": "Favourite",
+          "schema": {
+            "$ref": "#/backend/entities/Favourite"
+          },
+          "description": "Stores a user's favourite links.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The Firebase Auth UID of the user."
+            },
+            {
+              "name": "favouriteId",
+              "description": "The unique ID for the favourite."
             }
           ]
         }
