@@ -26,7 +26,7 @@ export default function HomePage() {
   };
 
   return (
-    <div className="flex min-h-screen w-full flex-col bg-white">
+    <div className="flex min-h-screen w-full flex-col bg-background">
       <header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b bg-background px-4 sm:px-6">
         <Sheet>
           <SheetTrigger asChild>
@@ -69,20 +69,18 @@ export default function HomePage() {
                 A list of actions you can perform.
               </SheetDescription>
             </SheetHeader>
-            <div className="py-4 space-y-4">
-                <Button variant="ghost" className="w-full justify-start text-lg font-bold">
-                  Today
-                </Button>
-              <div className="space-y-2">
-                <Button variant="ghost" className="w-full justify-start text-base">
-                  <Trash2 className="mr-2 h-5 w-5" />
-                  Remove
-                </Button>
-                <Button variant="ghost" className="w-full justify-start text-base">
-                  <PlusCircle className="mr-2 h-5 w-5" />
-                  Add
-                </Button>
-              </div>
+            <div className="py-4 space-y-2">
+              <Button variant="secondary" className="w-full justify-start text-lg font-bold">
+                Today
+              </Button>
+              <Button variant="ghost" className="w-full justify-start text-base">
+                <Trash2 className="mr-2 h-5 w-5" />
+                Remove
+              </Button>
+              <Button variant="ghost" className="w-full justify-start text-base">
+                <PlusCircle className="mr-2 h-5 w-5" />
+                Add
+              </Button>
             </div>
           </SheetContent>
         </Sheet>
