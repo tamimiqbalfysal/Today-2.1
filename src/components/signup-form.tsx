@@ -112,7 +112,7 @@ export function SignUpForm() {
   }
 
   return (
-    <div className="w-full max-w-sm space-y-6">
+    <div className="w-full max-w-sm space-y-8">
       <div className="text-center">
         <h1 className="text-3xl font-bold font-headline">Today</h1>
       </div>
@@ -124,7 +124,7 @@ export function SignUpForm() {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder="Name" {...field} className="text-center" />
+                  <Input placeholder="Name" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -139,7 +139,6 @@ export function SignUpForm() {
                   <Input
                     placeholder="Username"
                     {...field}
-                    className="text-center"
                   />
                 </FormControl>
                 <FormMessage />
@@ -156,7 +155,6 @@ export function SignUpForm() {
                     type="email"
                     placeholder="Email"
                     {...field}
-                    className="text-center"
                   />
                 </FormControl>
                 <FormMessage />
@@ -173,7 +171,7 @@ export function SignUpForm() {
                   defaultValue={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger className="justify-center">
+                    <SelectTrigger>
                       <SelectValue placeholder="Country" />
                     </SelectTrigger>
                   </FormControl>
@@ -200,7 +198,7 @@ export function SignUpForm() {
                       <Button
                         variant={"outline"}
                         className={cn(
-                          "w-full justify-center text-center font-normal",
+                          "w-full justify-start text-left font-normal border-0 border-b rounded-none",
                           !field.value && "text-muted-foreground"
                         )}
                       >
@@ -213,7 +211,7 @@ export function SignUpForm() {
                       </Button>
                     </FormControl>
                   </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="center">
+                  <PopoverContent className="w-auto p-0" align="start">
                     <Calendar
                       mode="single"
                       selected={field.value}
@@ -239,7 +237,6 @@ export function SignUpForm() {
                     type="password"
                     placeholder="Password"
                     {...field}
-                    className="text-center"
                   />
                 </FormControl>
                 <FormMessage />
@@ -256,7 +253,6 @@ export function SignUpForm() {
                     type="password"
                     placeholder="Confirm Password"
                     {...field}
-                    className="text-center"
                   />
                 </FormControl>
                 <FormMessage />
@@ -266,7 +262,7 @@ export function SignUpForm() {
           <Button
             type="submit"
             variant="secondary"
-            className="w-full"
+            className="w-full h-12"
             disabled={isLoading}
           >
             {isLoading ? (
