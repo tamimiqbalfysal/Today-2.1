@@ -184,7 +184,7 @@ export function SignUpForm() {
                   defaultValue={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger className={cn(!field.value && "text-muted-foreground", "text-center justify-center")}>
+                    <SelectTrigger className={cn(!field.value && "text-muted-foreground hover:text-foreground", "text-center justify-center")}>
                       <SelectValue placeholder="Country" />
                     </SelectTrigger>
                   </FormControl>
@@ -212,7 +212,7 @@ export function SignUpForm() {
                         variant={"outline"}
                         className={cn(
                           "w-full justify-center text-center font-normal border-0 border-b rounded-none hover:text-foreground",
-                          !field.value && "text-muted-foreground"
+                          !field.value && "text-muted-foreground hover:text-foreground"
                         )}
                       >
                         {field.value ? (
