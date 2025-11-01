@@ -27,7 +27,7 @@ export default function HomePage() {
       <header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b bg-background px-4 sm:px-6">
         <Sheet>
           <SheetTrigger asChild>
-            <Button size="icon" variant="outline">
+            <Button size="icon" variant="ghost">
               <Menu className="h-5 w-5" />
               <span className="sr-only">Toggle Left Menu</span>
             </Button>
@@ -54,7 +54,7 @@ export default function HomePage() {
 
         <Sheet>
           <SheetTrigger asChild>
-            <Button size="icon" variant="outline">
+            <Button size="icon" variant="ghost">
               <Menu className="h-5 w-5" />
               <span className="sr-only">Toggle Right Menu</span>
             </Button>
