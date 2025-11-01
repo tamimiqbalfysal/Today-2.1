@@ -230,7 +230,7 @@ export function SignUpForm() {
             control={form.control}
             name="dob"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="flex flex-col items-center">
                 <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
