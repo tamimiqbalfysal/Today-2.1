@@ -157,7 +157,7 @@ export function SignUpForm() {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder="Name" {...field} className="border-0 border-b rounded-none px-0 focus-visible:ring-0 focus-visible:ring-offset-0 bg-transparent hover:bg-transparent" />
+                  <Input placeholder="Name" {...field} className="border-0 border-b rounded-none px-0 focus-visible:ring-0 focus-visible:ring-offset-0 bg-transparent hover:bg-gray-100 hover:text-black text-center" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -172,7 +172,7 @@ export function SignUpForm() {
                   <Input
                     placeholder="Username"
                     {...field}
-                    className="border-0 border-b rounded-none px-0 focus-visible:ring-0 focus-visible:ring-offset-0 bg-transparent hover:bg-transparent"
+                    className="border-0 border-b rounded-none px-0 focus-visible:ring-0 focus-visible:ring-offset-0 bg-transparent hover:bg-gray-100 hover:text-black text-center"
                   />
                 </FormControl>
                 <FormMessage />
@@ -189,7 +189,7 @@ export function SignUpForm() {
                     type="email"
                     placeholder="Email"
                     {...field}
-                    className="border-0 border-b rounded-none px-0 focus-visible:ring-0 focus-visible:ring-offset-0 bg-transparent hover:bg-transparent"
+                    className="border-0 border-b rounded-none px-0 focus-visible:ring-0 focus-visible:ring-offset-0 bg-transparent hover:bg-gray-100 hover:text-black text-center"
                   />
                 </FormControl>
                 <FormMessage />
@@ -206,7 +206,7 @@ export function SignUpForm() {
                   defaultValue={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger className={cn("border-0 border-b rounded-none px-0 focus:ring-0 bg-transparent hover:bg-transparent", !field.value && "text-muted-foreground")}>
+                    <SelectTrigger className={cn("border-0 border-b rounded-none px-0 focus:ring-0 bg-transparent hover:bg-gray-100 hover:text-black text-center justify-center", !field.value && "text-muted-foreground")}>
                       <SelectValue placeholder="Country" />
                     </SelectTrigger>
                   </FormControl>
@@ -233,7 +233,7 @@ export function SignUpForm() {
                       <Button
                         variant={"outline"}
                         className={cn(
-                          "w-full justify-start text-left font-normal border-0 border-b rounded-none px-0 focus-visible:ring-0 focus-visible:ring-offset-0 bg-transparent hover:bg-transparent",
+                          "w-full justify-center text-center font-normal border-0 border-b rounded-none px-0 focus-visible:ring-0 focus-visible:ring-offset-0 bg-transparent hover:bg-gray-100 hover:text-black",
                           !field.value && "text-muted-foreground"
                         )}
                       >
@@ -246,7 +246,7 @@ export function SignUpForm() {
                       </Button>
                     </FormControl>
                   </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
+                  <PopoverContent className="w-auto p-0" align="center">
                     <Calendar
                       captionLayout="dropdown-buttons"
                       fromYear={1900}
@@ -275,7 +275,7 @@ export function SignUpForm() {
                     type="password"
                     placeholder="Password"
                     {...field}
-                    className="border-0 border-b rounded-none px-0 focus-visible:ring-0 focus-visible:ring-offset-0 bg-transparent hover:bg-transparent"
+                    className="border-0 border-b rounded-none px-0 focus-visible:ring-0 focus-visible:ring-offset-0 bg-transparent hover:bg-gray-100 hover:text-black text-center"
                   />
                 </FormControl>
                 <FormMessage />
@@ -292,7 +292,7 @@ export function SignUpForm() {
                     type="password"
                     placeholder="Confirm Password"
                     {...field}
-                    className="border-0 border-b rounded-none px-0 focus-visible:ring-0 focus-visible:ring-offset-0 bg-transparent hover:bg-transparent"
+                    className="border-0 border-b rounded-none px-0 focus-visible:ring-0 focus-visible:ring-offset-0 bg-transparent hover:bg-gray-100 hover:text-black text-center"
                   />
                 </FormControl>
                 <FormMessage />
