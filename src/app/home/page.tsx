@@ -1,51 +1,34 @@
 'use client';
 
-import { useFirebase, useCollection, useMemoFirebase } from '@/firebase';
+import { useFirebase } from '@/firebase';
 import { useRouter } from 'next/navigation';
-import { Home, Menu, Bell, Trash2, PlusCircle } from 'lucide-react';
-import { collection } from 'firebase/firestore';
+import { Home, Menu, Bell } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
 
-interface Favourite {
-    name: string;
-    link: string;
-}
-
 export default function HomePage() {
-  const { auth, firestore, user } = useFirebase();
+  const { auth } = useFirebase();
   const router = useRouter();
 
-  const favouritesQuery = useMemoFirebase(() => {
-    if (!user || !firestore) return null;
-    return collection(firestore, 'users', user.uid, 'favourites');
-  }, [firestore, user]);
-
-  const { data: favourites } = useCollection<Favourite>(favouritesQuery);
-
-
   const handleSignOut = async () => {
-    if (auth) {
-      await auth.signOut();
-    }
+    await auth.signOut();
     router.push('/login');
   };
 
   return (
-    <div className="flex min-h-screen w-full flex-col bg-background">
+    <div className="flex min-h-screen w-full flex-col bg-white">
       <header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b bg-background px-4 sm:px-6">
         <Sheet>
           <SheetTrigger asChild>
             <Button size="icon" variant="ghost">
-              <Menu className="h-6 w-6" />
+              <Menu className="h-5 w-5" />
               <span className="sr-only">Toggle Left Menu</span>
             </Button>
           </SheetTrigger>
@@ -64,7 +47,7 @@ export default function HomePage() {
         
         <div className="flex-1 flex justify-center">
             <Button variant="ghost" size="icon" onClick={() => router.push('/home')}>
-                <Home className="h-6 w-6" />
+                <Home className="h-5 w-5" />
                 <span className="sr-only">Home</span>
             </Button>
         </div>
@@ -72,36 +55,16 @@ export default function HomePage() {
         <Sheet>
           <SheetTrigger asChild>
             <Button size="icon" variant="ghost">
-              <Menu className="h-6 w-6" />
+              <Menu className="h-5 w-5" />
               <span className="sr-only">Toggle Right Menu</span>
             </Button>
           </SheetTrigger>
           <SheetContent side="right" className="sm:max-w-xs">
             <SheetHeader>
-              <SheetTitle className="sr-only">Actions</SheetTitle>
-              <SheetDescription className="sr-only">
-                A list of actions you can perform.
-              </SheetDescription>
+              <SheetTitle>Right Panel</SheetTitle>
             </SheetHeader>
-            <div className="py-4 space-y-2">
-              <Button variant="ghost" className="w-full justify-start text-lg font-bold">
-                Today
-              </Button>
-              {favourites?.map((fav) => (
-                <Button key={fav.id} variant="ghost" className="w-full justify-start text-base" asChild>
-                  <a href={fav.link} target="_blank" rel="noopener noreferrer">
-                    {fav.name}
-                  </a>
-                </Button>
-              ))}
-              <Button variant="ghost" className="w-full justify-start text-base">
-                <Trash2 className="mr-2 h-5 w-5" />
-                Remove
-              </Button>
-              <Button variant="ghost" className="w-full justify-start text-base" onClick={() => router.push('/add')}>
-                <PlusCircle className="mr-2 h-5 w-5" />
-                Add
-              </Button>
+            <div className="py-4">
+              <p>This is the right drawer content.</p>
             </div>
           </SheetContent>
         </Sheet>
