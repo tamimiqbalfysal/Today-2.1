@@ -74,7 +74,7 @@ export default function HomePage() {
       </main>
       <div className="fixed bottom-4 right-4">
         <div className="relative">
-          <Bell className="h-12 w-12 text-foreground" />
+          <Bell className="h-16 w-16 text-foreground" />
           <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-lg font-bold text-foreground">
             20
           </span>
