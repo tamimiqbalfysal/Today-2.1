@@ -86,9 +86,13 @@ export default function HomePage() {
           </div>
       </main>
       <div className="fixed bottom-4 right-4">
-          <Button size="icon" variant="default" className="relative h-12 w-12 rounded-full shadow-lg">
+          <Button
+              size="icon"
+              variant="outline"
+              className="relative h-12 w-12 rounded-full border-white/50 bg-transparent text-white hover:bg-white/10 hover:text-white"
+          >
               <Bell className="h-6 w-6" />
-              <Badge className="absolute -top-1 -right-1 h-6 w-6 justify-center rounded-full">
+              <Badge className="absolute -top-1 -right-1 h-6 w-6 justify-center rounded-full border-transparent bg-transparent text-white">
                   20
               </Badge>
               <span className="sr-only">Notifications</span>
