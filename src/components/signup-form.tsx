@@ -103,6 +103,10 @@ export function SignUpForm() {
       name: "",
       username: "",
       email: "",
+      country: undefined,
+      dob: undefined,
+      password: "",
+      confirmPassword: "",
     },
   });
 
