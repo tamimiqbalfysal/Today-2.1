@@ -2,7 +2,7 @@
 
 import { useFirebase } from '@/firebase';
 import { useRouter } from 'next/navigation';
-import { Home, Menu, Bell } from 'lucide-react';
+import { Home, Menu, Bell, Trash2, PlusCircle } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -61,10 +61,19 @@ export default function HomePage() {
           </SheetTrigger>
           <SheetContent side="right" className="sm:max-w-xs">
             <SheetHeader>
-              <SheetTitle>Right Panel</SheetTitle>
+              <SheetTitle>Today</SheetTitle>
             </SheetHeader>
             <div className="py-4">
-              <p>This is the right drawer content.</p>
+              <div className="flex flex-col space-y-4">
+                <Button variant="ghost" className="justify-start">
+                  <Trash2 className="mr-2 h-4 w-4" />
+                  Remove
+                </Button>
+                <Button variant="ghost" className="justify-start" onClick={() => router.push('/add')}>
+                  <PlusCircle className="mr-2 h-4 w-4" />
+                  Add
+                </Button>
+              </div>
             </div>
           </SheetContent>
         </Sheet>
