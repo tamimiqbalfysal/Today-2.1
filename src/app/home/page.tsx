@@ -61,7 +61,6 @@ export default function HomePage() {
           </SheetTrigger>
           <SheetContent side="right" className="sm:max-w-xs">
             <SheetHeader>
-              <SheetTitle>Today</SheetTitle>
             </SheetHeader>
             <div className="py-4">
               <div className="flex flex-col space-y-4">
