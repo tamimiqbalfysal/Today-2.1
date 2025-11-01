@@ -24,7 +24,7 @@ export default function HomePage() {
   };
 
   return (
-    <div className="flex min-h-screen w-full flex-col bg-muted/40">
+    <div className="flex min-h-screen w-full flex-col bg-white">
       <header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b bg-background px-4 sm:px-6">
         <Sheet>
           <SheetTrigger asChild>
@@ -88,11 +88,11 @@ export default function HomePage() {
         <Button
           size="icon"
           variant="outline"
-          className="relative h-20 w-20 rounded-full border-white/50 bg-transparent text-white hover:bg-white/10 hover:text-white"
+          className="relative h-20 w-20 rounded-full border-foreground/20 bg-transparent text-foreground hover:bg-foreground/5"
         >
           <div className="relative flex items-center justify-center">
             <Bell className="h-12 w-12" />
-            <span className="absolute text-lg font-bold text-white">
+            <span className="absolute text-lg font-bold">
               20
             </span>
           </div>
