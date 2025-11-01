@@ -55,7 +55,10 @@ service cloud.firestore {
       allow update: if isExistingOwner(userId) && request.resource.data.id == resource.data.id;
       allow delete: if isExistingOwner(userId);
 
+      // Rules for the favourites subcollection
       match /favourites/{favouriteId} {
+        // A user can read (get, list) and write (create, update, delete) documents
+        // in their own favourites subcollection.
         allow read, write: if isOwner(userId);
       }
     }
