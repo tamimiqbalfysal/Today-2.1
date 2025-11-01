@@ -1,0 +1,68 @@
+{
+  "entities": {
+    "UserAccount": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "UserAccount",
+      "type": "object",
+      "description": "Represents a user account in the Simple Sign Up application.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the UserAccount entity."
+        },
+        "username": {
+          "type": "string",
+          "description": "The user's chosen username."
+        },
+        "email": {
+          "type": "string",
+          "description": "The user's email address.",
+          "format": "email"
+        },
+        "country": {
+          "type": "string",
+          "description": "The user's country of residence."
+        },
+        "dateOfBirth": {
+          "type": "string",
+          "description": "The user's date of birth.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "username",
+        "email",
+        "country",
+        "dateOfBirth"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/users/{userId}",
+        "definition": {
+          "entityName": "UserAccount",
+          "schema": {
+            "$ref": "#/backend/entities/UserAccount"
+          },
+          "description": "Stores user account information. The document ID is the Firebase Auth UID. This enables path-based ownership for authorization.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The Firebase Auth UID of the user."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The data structure prioritizes authorization independence and simplicity for the 'Simple Sign Up' application.  The core entity is `UserAccount`. Since the application's requirements are centered around user creation and management, a simple path-based ownership model is used. All UserAccount documents are stored in a `users` collection, using the Firebase Auth UID as the document ID, enabling straightforward security rules. This path-based ownership (`/users/{userId}`) inherently provides authorization independence, as each user's data is directly accessible via their UID without needing to traverse parent documents. This avoids complex `get()` calls in security rules. The structure supports QAPs by ensuring that listing users is only possible with appropriate authorization, typically admin roles which are not described in this request."
+  }
+}
