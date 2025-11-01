@@ -211,7 +211,7 @@ export function SignUpForm() {
                       <Button
                         variant={"outline"}
                         className={cn(
-                          "w-full justify-center text-center font-normal border-0 border-b rounded-none",
+                          "w-full justify-center text-center font-normal border-0 border-b rounded-none hover:text-foreground",
                           !field.value && "text-muted-foreground"
                         )}
                       >
