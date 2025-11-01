@@ -26,10 +26,10 @@ export default function HomePage() {
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
-      <header className="sticky top-0 z-30 flex h-14 items-center justify-between gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
+      <header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b bg-background px-4 sm:px-6">
         <Sheet>
           <SheetTrigger asChild>
-            <Button size="icon" variant="outline" className="sm:hidden">
+            <Button size="icon" variant="outline">
               <Menu className="h-5 w-5" />
               <span className="sr-only">Toggle Left Menu</span>
             </Button>
@@ -46,15 +46,17 @@ export default function HomePage() {
             </div>
           </SheetContent>
         </Sheet>
-        <div className="flex items-center gap-4">
+        
+        <div className="flex-1 flex justify-center">
             <Button variant="ghost" size="icon" onClick={() => router.push('/home')}>
                 <Home className="h-5 w-5" />
                 <span className="sr-only">Home</span>
             </Button>
         </div>
+
         <Sheet>
           <SheetTrigger asChild>
-            <Button size="icon" variant="outline" className="sm:hidden">
+            <Button size="icon" variant="outline">
               <Menu className="h-5 w-5" />
               <span className="sr-only">Toggle Right Menu</span>
             </Button>
