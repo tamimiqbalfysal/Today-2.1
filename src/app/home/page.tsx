@@ -18,7 +18,9 @@ export default function HomePage() {
   const router = useRouter();
 
   const handleSignOut = async () => {
-    await auth.signOut();
+    if (auth) {
+      await auth.signOut();
+    }
     router.push('/login');
   };
 
@@ -61,6 +63,7 @@ export default function HomePage() {
           </SheetTrigger>
           <SheetContent side="right" className="sm:max-w-xs">
             <SheetHeader>
+              <SheetTitle className="sr-only">Actions</SheetTitle>
             </SheetHeader>
             <div className="py-4">
               <div className="flex flex-col space-y-4">
