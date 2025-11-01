@@ -46,19 +46,19 @@ service cloud.firestore {
       allow get, update, delete: if isOwner(userId);
       allow list: if false; // Listing users is not permitted.
       allow create: if isSignedIn() && request.resource.data.id == request.auth.uid;
-    }
 
-    /**
-     * @description Enforces access control for the 'favourites' subcollection.
-     * @path /users/{userId}/favourites/{favouriteId}
-     * @allow (read, write) Authenticated user can manage their own favourites.
-     *   This single rule grants permission for get, list, create, update, and delete operations on the favourites subcollection, but only for the owner.
-     * @deny (read, write) A user cannot access another user's favourites.
-     *   Example: A user with UID "user123" cannot access /users/user789/favourites/favXYZ.
-     * @principle A user can only manage documents within their own 'favourites' subcollection.
-     */
-    match /users/{userId}/favourites/{favouriteId} {
-        allow read, write: if isOwner(userId);
+      /**
+       * @description Enforces access control for the 'favourites' subcollection.
+       * @path /users/{userId}/favourites/{favouriteId}
+       * @allow (read, write) Authenticated user can manage their own favourites.
+       *   This single rule grants permission for get, list, create, update, and delete operations on the favourites subcollection, but only for the owner.
+       * @deny (read, write) A user cannot access another user's favourites.
+       *   Example: A user with UID "user123" cannot access /users/user789/favourites/favXYZ.
+       * @principle A user can only manage documents within their own 'favourites' subcollection.
+       */
+      match /favourites/{favouriteId} {
+          allow read, write: if isOwner(userId);
+      }
     }
   }
 }
