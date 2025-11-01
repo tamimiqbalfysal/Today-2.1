@@ -2,7 +2,7 @@
 
 import { useFirebase } from '@/firebase';
 import { useRouter } from 'next/navigation';
-import { Home, Menu } from 'lucide-react';
+import { Home, Menu, Bell } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -91,20 +91,7 @@ export default function HomePage() {
           className="relative h-20 w-20 rounded-full border-white/50 bg-transparent text-white hover:bg-white/10 hover:text-white"
         >
           <div className="relative flex items-center justify-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="48"
-              height="48"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
-              <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
-            </svg>
+            <Bell className="h-12 w-12" />
             <span className="absolute text-lg font-bold text-white">
               20
             </span>
