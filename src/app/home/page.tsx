@@ -2,7 +2,7 @@
 
 import { useFirebase } from '@/firebase';
 import { useRouter } from 'next/navigation';
-import { Home, Menu, Bell } from 'lucide-react';
+import { Home, Menu, Bell, Trash2, PlusCircle } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -28,7 +28,7 @@ export default function HomePage() {
         <Sheet>
           <SheetTrigger asChild>
             <Button size="icon" variant="ghost">
-              <Menu className="h-5 w-5" />
+              <Menu className="h-6 w-6" />
               <span className="sr-only">Toggle Left Menu</span>
             </Button>
           </SheetTrigger>
@@ -47,7 +47,7 @@ export default function HomePage() {
         
         <div className="flex-1 flex justify-center">
             <Button variant="ghost" size="icon" onClick={() => router.push('/home')}>
-                <Home className="h-5 w-5" />
+                <Home className="h-6 w-6" />
                 <span className="sr-only">Home</span>
             </Button>
         </div>
@@ -55,16 +55,23 @@ export default function HomePage() {
         <Sheet>
           <SheetTrigger asChild>
             <Button size="icon" variant="ghost">
-              <Menu className="h-5 w-5" />
+              <Menu className="h-6 w-6" />
               <span className="sr-only">Toggle Right Menu</span>
             </Button>
           </SheetTrigger>
           <SheetContent side="right" className="sm:max-w-xs">
-            <SheetHeader>
-              <SheetTitle>Right Panel</SheetTitle>
+            <SheetHeader className="text-left">
+              <SheetTitle>Today</SheetTitle>
             </SheetHeader>
-            <div className="py-4">
-              <p>This is the right drawer content.</p>
+            <div className="py-4 space-y-2">
+              <Button variant="ghost" className="w-full justify-start text-base">
+                <Trash2 className="mr-2 h-5 w-5" />
+                Remove
+              </Button>
+              <Button variant="ghost" className="w-full justify-start text-base">
+                <PlusCircle className="mr-2 h-5 w-5" />
+                Add
+              </Button>
             </div>
           </SheetContent>
         </Sheet>
