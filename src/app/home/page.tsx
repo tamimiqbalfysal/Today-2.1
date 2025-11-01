@@ -12,7 +12,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import { Card, CardContent } from '@/components/ui/card';
 
 export default function HomePage() {
   const { auth } = useFirebase();
@@ -71,18 +70,7 @@ export default function HomePage() {
         </Sheet>
       </header>
       <main className="flex-1 p-4 sm:px-6 sm:py-0">
-          <div className="grid grid-cols-1 gap-4">
-              <Card>
-                  <CardContent className="h-64 p-6">
-                    {/* Placeholder for content */}
-                  </CardContent>
-              </Card>
-              <Card>
-                  <CardContent className="h-64 p-6">
-                    {/* Placeholder for content */}
-                  </CardContent>
-              </Card>
-          </div>
+          
       </main>
       <div className="fixed bottom-4 right-4">
         <Button
