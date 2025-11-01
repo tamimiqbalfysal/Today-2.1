@@ -2,7 +2,7 @@
 
 import { useFirebase } from '@/firebase';
 import { useRouter } from 'next/navigation';
-import { Home, Menu, Bell, Trash2, PlusCircle } from 'lucide-react';
+import { Home, Menu, Bell, Trash2, PlusCircle, Calendar } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -65,6 +65,10 @@ export default function HomePage() {
             </SheetHeader>
             <div className="py-4">
               <div className="flex flex-col space-y-4">
+                <Button variant="ghost" className="justify-start">
+                  <Calendar className="mr-2 h-4 w-4" />
+                  Today
+                </Button>
                 <Button variant="ghost" className="justify-start">
                   <Trash2 className="mr-2 h-4 w-4" />
                   Remove
