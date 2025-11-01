@@ -103,7 +103,7 @@ export function SignUpForm() {
       name: "",
       username: "",
       email: "",
-      country: undefined,
+      country: "",
       dob: undefined,
       password: "",
       confirmPassword: "",
@@ -152,7 +152,7 @@ export function SignUpForm() {
   }
 
   return (
-    <div className="w-full max-w-sm space-y-6">
+    <div className="w-full max-w-sm space-y-6 text-center">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormField
@@ -210,7 +210,7 @@ export function SignUpForm() {
                   defaultValue={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger className={cn("border-0 border-b rounded-none px-0 focus:ring-0 bg-transparent hover:bg-gray-100 hover:text-black text-center justify-center", !field.value && "text-muted-foreground")}>
+                    <SelectTrigger className={cn("border-0 border-b rounded-none px-0 focus:ring-0 bg-transparent hover:bg-gray-100 hover:text-black text-center justify-center", !field.value && "text-muted-foreground hover:text-black")}>
                       <SelectValue placeholder="Country" />
                     </SelectTrigger>
                   </FormControl>
@@ -238,7 +238,7 @@ export function SignUpForm() {
                         variant={"outline"}
                         className={cn(
                           "w-full justify-center text-center font-normal border-0 border-b rounded-none px-0 focus-visible:ring-0 focus-visible:ring-offset-0 bg-transparent hover:bg-gray-100 hover:text-black",
-                          !field.value && "text-muted-foreground"
+                          !field.value && "text-muted-foreground hover:text-black"
                         )}
                       >
                         {field.value ? (
