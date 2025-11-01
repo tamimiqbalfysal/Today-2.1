@@ -6,6 +6,8 @@ import * as z from "zod";
 import { useRouter } from "next/navigation";
 import { format } from "date-fns";
 import { CalendarIcon, Loader2 } from "lucide-react";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -33,6 +35,8 @@ import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import React from "react";
+import { useFirebase } from "@/firebase";
+import { setDocumentNonBlocking } from "@/firebase/non-blocking-updates";
 
 const formSchema = z
   .object({
@@ -91,6 +95,7 @@ export function SignUpForm() {
   const router = useRouter();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = React.useState(false);
+  const { auth, firestore } = useFirebase();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -103,31 +108,49 @@ export function SignUpForm() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
-    // In a real application, you would handle user creation here,
-    // for example, by calling a server action or an API endpoint.
-    // This could involve saving the user to a database like Firestore.
-    console.log(values);
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
+      const user = userCredential.user;
 
-    setIsLoading(false);
+      const userAccount = {
+        id: user.uid,
+        username: values.username,
+        email: values.email,
+        country: values.country,
+        dateOfBirth: values.dob.toISOString(),
+      };
+      
+      const userDocRef = doc(firestore, "users", user.uid);
+      setDocumentNonBlocking(userDocRef, userAccount, { merge: true });
 
-    toast({
-      title: "Account created!",
-      description: "You have been successfully signed up.",
-    });
+      toast({
+        title: "Account created!",
+        description: "You have been successfully signed up.",
+      });
 
-    // Redirect to login page after a short delay
-    setTimeout(() => {
-      router.push("/login");
-    }, 1000);
+      router.push("/home");
+
+    } catch (error: any) {
+      console.error("Sign up error:", error);
+      let errorMessage = "An unexpected error occurred during sign up.";
+      if (error.code === 'auth/email-already-in-use') {
+        errorMessage = "This email address is already in use.";
+      }
+      toast({
+        variant: "destructive",
+        title: "Sign up failed",
+        description: errorMessage,
+      });
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
-    <div className="w-full max-w-sm space-y-8">
+    <div className="w-full max-w-sm space-y-6">
       <div className="text-center">
-        <h1 className="text-3xl font-bold font-headline">Today</h1>
+        <h1 className="text-3xl font-bold font-headline">Simple Sign Up</h1>
       </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
