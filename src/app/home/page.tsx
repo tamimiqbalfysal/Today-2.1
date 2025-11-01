@@ -12,7 +12,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 
 export default function HomePage() {
@@ -86,17 +85,19 @@ export default function HomePage() {
           </div>
       </main>
       <div className="fixed bottom-4 right-4">
-          <Button
-              size="icon"
-              variant="outline"
-              className="relative h-16 w-16 rounded-full border-white/50 bg-transparent text-white hover:bg-white/10 hover:text-white"
-          >
-              <Bell className="h-8 w-8" />
-              <Badge className="absolute -top-1 -right-1 h-8 w-8 justify-center rounded-full border-transparent bg-transparent text-white text-base">
-                  20
-              </Badge>
-              <span className="sr-only">Notifications</span>
-          </Button>
+        <Button
+          size="icon"
+          variant="outline"
+          className="relative h-20 w-20 rounded-full border-white/50 bg-transparent text-white hover:bg-white/10 hover:text-white"
+        >
+          <div className="relative">
+            <Bell className="h-12 w-12" />
+            <span className="absolute inset-0 flex items-center justify-center text-lg font-bold text-black">
+              20
+            </span>
+          </div>
+          <span className="sr-only">Notifications</span>
+        </Button>
       </div>
     </div>
   );
