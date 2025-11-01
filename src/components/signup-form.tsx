@@ -171,7 +171,7 @@ export function SignUpForm() {
                   defaultValue={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger className={cn(!field.value && "text-muted-foreground")}>
+                    <SelectTrigger className={cn(!field.value && "text-muted-foreground", "text-center justify-center")}>
                       <SelectValue placeholder="Country" />
                     </SelectTrigger>
                   </FormControl>
@@ -278,14 +278,14 @@ export function SignUpForm() {
       </Form>
       <div className="text-center">
         <p className="text-sm text-muted-foreground">
-          Already have an account?{" "}
-          <Link
-            href="/login"
-            className="font-semibold text-foreground hover:underline"
-          >
-            Sign in
-          </Link>
+          Already have an account?
         </p>
+        <Link
+          href="/login"
+          className="font-semibold text-foreground hover:underline text-sm"
+        >
+          Sign in
+        </Link>
       </div>
     </div>
   );
