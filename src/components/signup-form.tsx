@@ -171,7 +171,7 @@ export function SignUpForm() {
                   defaultValue={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger>
+                    <SelectTrigger className={cn(!field.value && "text-muted-foreground")}>
                       <SelectValue placeholder="Country" />
                     </SelectTrigger>
                   </FormControl>
