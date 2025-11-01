@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import {
   Sheet,
   SheetContent,
+  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -62,8 +63,16 @@ export default function HomePage() {
             </Button>
           </SheetTrigger>
           <SheetContent side="right" className="sm:max-w-xs">
+            <SheetHeader>
+              <SheetTitle className="sr-only">Actions</SheetTitle>
+              <SheetDescription className="sr-only">
+                A list of actions you can perform.
+              </SheetDescription>
+            </SheetHeader>
             <div className="py-4 space-y-4">
-              <p className="text-lg font-bold px-4">Today</p>
+                <Button variant="ghost" className="w-full justify-start text-lg font-bold">
+                  Today
+                </Button>
               <div className="space-y-2">
                 <Button variant="ghost" className="w-full justify-start text-base">
                   <Trash2 className="mr-2 h-5 w-5" />
