@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { format } from "date-fns";
 import { CalendarIcon, Loader2 } from "lucide-react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import { doc } from "firebase/firestore";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -40,7 +40,7 @@ import { setDocumentNonBlocking } from "@/firebase/non-blocking-updates";
 
 const formSchema = z
   .object({
-    name: z.string().min(2, { message: "Name must be at least 2 characters." }),
+    name: z.string().min(1, { message: "Name is required." }),
     username: z
       .string()
       .min(2, { message: "Username must be at least 2 characters." })
@@ -149,9 +149,6 @@ export function SignUpForm() {
 
   return (
     <div className="w-full max-w-sm space-y-6">
-      <div className="text-center">
-        <h1 className="text-3xl font-bold font-headline">Simple Sign Up</h1>
-      </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormField
@@ -160,7 +157,7 @@ export function SignUpForm() {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder="Name" {...field} className="hover:bg-accent hover:text-foreground" />
+                  <Input placeholder="Name" {...field} className="border-0 border-b rounded-none px-0 focus-visible:ring-0 focus-visible:ring-offset-0 bg-transparent hover:bg-transparent" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -175,7 +172,7 @@ export function SignUpForm() {
                   <Input
                     placeholder="Username"
                     {...field}
-                    className="hover:bg-accent hover:text-foreground"
+                    className="border-0 border-b rounded-none px-0 focus-visible:ring-0 focus-visible:ring-offset-0 bg-transparent hover:bg-transparent"
                   />
                 </FormControl>
                 <FormMessage />
@@ -192,7 +189,7 @@ export function SignUpForm() {
                     type="email"
                     placeholder="Email"
                     {...field}
-                    className="hover:bg-accent hover:text-foreground"
+                    className="border-0 border-b rounded-none px-0 focus-visible:ring-0 focus-visible:ring-offset-0 bg-transparent hover:bg-transparent"
                   />
                 </FormControl>
                 <FormMessage />
@@ -209,7 +206,7 @@ export function SignUpForm() {
                   defaultValue={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger className={cn(!field.value && "text-muted-foreground hover:text-foreground", "text-center justify-center")}>
+                    <SelectTrigger className={cn("border-0 border-b rounded-none px-0 focus:ring-0 bg-transparent hover:bg-transparent", !field.value && "text-muted-foreground")}>
                       <SelectValue placeholder="Country" />
                     </SelectTrigger>
                   </FormControl>
@@ -236,9 +233,8 @@ export function SignUpForm() {
                       <Button
                         variant={"outline"}
                         className={cn(
-                          "w-full justify-center text-center font-normal border-0 border-b rounded-none",
-                          !field.value && "text-muted-foreground",
-                          "hover:bg-accent hover:text-foreground"
+                          "w-full justify-start text-left font-normal border-0 border-b rounded-none px-0 focus-visible:ring-0 focus-visible:ring-offset-0 bg-transparent hover:bg-transparent",
+                          !field.value && "text-muted-foreground"
                         )}
                       >
                         {field.value ? (
@@ -250,7 +246,7 @@ export function SignUpForm() {
                       </Button>
                     </FormControl>
                   </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="center">
+                  <PopoverContent className="w-auto p-0" align="start">
                     <Calendar
                       captionLayout="dropdown-buttons"
                       fromYear={1900}
@@ -279,7 +275,7 @@ export function SignUpForm() {
                     type="password"
                     placeholder="Password"
                     {...field}
-                    className="hover:bg-accent hover:text-foreground"
+                    className="border-0 border-b rounded-none px-0 focus-visible:ring-0 focus-visible:ring-offset-0 bg-transparent hover:bg-transparent"
                   />
                 </FormControl>
                 <FormMessage />
@@ -296,7 +292,7 @@ export function SignUpForm() {
                     type="password"
                     placeholder="Confirm Password"
                     {...field}
-                    className="hover:bg-accent hover:text-foreground"
+                    className="border-0 border-b rounded-none px-0 focus-visible:ring-0 focus-visible:ring-offset-0 bg-transparent hover:bg-transparent"
                   />
                 </FormControl>
                 <FormMessage />
@@ -305,8 +301,8 @@ export function SignUpForm() {
           />
           <Button
             type="submit"
-            variant="secondary"
-            className="w-full h-12"
+            variant="ghost"
+            className="w-full h-12 bg-gray-100 text-black hover:bg-gray-200"
             disabled={isLoading}
           >
             {isLoading ? (
