@@ -198,7 +198,7 @@ export function SignUpForm() {
                       <Button
                         variant={"outline"}
                         className={cn(
-                          "w-full justify-start text-left font-normal border-0 border-b rounded-none",
+                          "w-full justify-center text-center font-normal border-0 border-b rounded-none",
                           !field.value && "text-muted-foreground"
                         )}
                       >
@@ -211,7 +211,7 @@ export function SignUpForm() {
                       </Button>
                     </FormControl>
                   </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
+                  <PopoverContent className="w-auto p-0" align="center">
                     <Calendar
                       mode="single"
                       selected={field.value}
