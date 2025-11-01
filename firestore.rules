@@ -49,16 +49,16 @@ service cloud.firestore {
     }
 
     /**
-     * @description Enforces access control for the 'favourites' subcollection using a recursive wildcard.
-     * @path /users/{userId}/favourites/{document=**}
+     * @description Enforces access control for the 'favourites' subcollection.
+     * @path /users/{userId}/favourites/{favouriteId}
      * @allow (read, write) Authenticated user can manage their own favourites.
-     *   Example: A user with UID "user123" can read or write to /users/user123/favourites/fav456. This also allows listing the collection.
+     *   This single rule grants permission for get, list, create, update, and delete operations on the favourites subcollection, but only for the owner.
      * @deny (read, write) A user cannot access another user's favourites.
      *   Example: A user with UID "user123" cannot access /users/user789/favourites/favXYZ.
      * @principle A user can only manage documents within their own 'favourites' subcollection.
      */
-    match /users/{userId}/favourites/{document=**} {
-      allow read, write: if isOwner(userId);
+    match /users/{userId}/favourites/{favouriteId} {
+        allow read, write: if isOwner(userId);
     }
   }
 }
