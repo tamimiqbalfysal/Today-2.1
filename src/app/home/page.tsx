@@ -18,7 +18,9 @@ export default function HomePage() {
   const router = useRouter();
 
   const handleSignOut = async () => {
-    await auth.signOut();
+    if (auth) {
+      await auth.signOut();
+    }
     router.push('/login');
   };
 
@@ -60,18 +62,18 @@ export default function HomePage() {
             </Button>
           </SheetTrigger>
           <SheetContent side="right" className="sm:max-w-xs">
-            <SheetHeader className="text-left">
-              <SheetTitle>Today</SheetTitle>
-            </SheetHeader>
-            <div className="py-4 space-y-2">
-              <Button variant="ghost" className="w-full justify-start text-base">
-                <Trash2 className="mr-2 h-5 w-5" />
-                Remove
-              </Button>
-              <Button variant="ghost" className="w-full justify-start text-base">
-                <PlusCircle className="mr-2 h-5 w-5" />
-                Add
-              </Button>
+            <div className="py-4 space-y-4">
+              <p className="text-lg font-bold px-4">Today</p>
+              <div className="space-y-2">
+                <Button variant="ghost" className="w-full justify-start text-base">
+                  <Trash2 className="mr-2 h-5 w-5" />
+                  Remove
+                </Button>
+                <Button variant="ghost" className="w-full justify-start text-base">
+                  <PlusCircle className="mr-2 h-5 w-5" />
+                  Add
+                </Button>
+              </div>
             </div>
           </SheetContent>
         </Sheet>
