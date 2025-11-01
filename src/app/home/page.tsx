@@ -73,19 +73,13 @@ export default function HomePage() {
           
       </main>
       <div className="fixed bottom-4 right-4">
-        <Button
-          size="icon"
-          variant="outline"
-          className="relative h-20 w-20 rounded-full border-foreground/20 bg-transparent text-foreground hover:bg-foreground/5"
-        >
-          <div className="relative flex items-center justify-center">
-            <Bell className="h-12 w-12" />
-            <span className="absolute text-lg font-bold">
-              20
-            </span>
-          </div>
+        <div className="relative">
+          <Bell className="h-12 w-12 text-foreground" />
+          <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-lg font-bold text-foreground">
+            20
+          </span>
           <span className="sr-only">Notifications</span>
-        </Button>
+        </div>
       </div>
     </div>
   );
