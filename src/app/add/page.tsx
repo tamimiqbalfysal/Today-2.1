@@ -29,6 +29,7 @@ import { useFirebase } from '@/firebase';
 import { useToast } from '@/hooks/use-toast';
 import { collection } from 'firebase/firestore';
 import { addDocumentNonBlocking } from '@/firebase/non-blocking-updates';
+import { Header } from '@/components/header';
 
 const formSchema = z.object({
   name: z.string().min(1, { message: 'Name is required.' }),
@@ -80,74 +81,77 @@ export default function AddPage() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-background p-4 sm:p-8">
-      <Card className="w-full max-w-lg">
-        <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-bold">
-            Add Your Personal Favourite
-          </CardTitle>
-          <CardDescription>
-            Add a link to your drawer for quick access.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-              <div className="grid w-full items-center gap-6">
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <Label htmlFor="name">Name</Label>
-                      <FormControl>
-                        <Input
-                          id="name"
-                          placeholder="Example"
-                          className="rounded-xl p-4"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="link"
-                  render={({ field }) => (
-                    <FormItem>
-                      <Label htmlFor="link">Link</Label>
-                      <FormControl>
-                        <Input
-                          id="link"
-                          placeholder="https://example.com"
-                          className="rounded-xl p-4"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <CardFooter className="flex justify-center p-6">
-                <Button
-                  type="submit"
-                  className="w-full max-w-xs rounded-xl bg-gray-700 p-6 text-white hover:bg-gray-800"
-                  disabled={isLoading}
-                >
-                  {isLoading ? (
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  ) : (
-                    'Add'
-                  )}
-                </Button>
-              </CardFooter>
-            </form>
-          </Form>
-        </CardContent>
-      </Card>
+    <div className="flex min-h-screen flex-col bg-background">
+      <Header />
+      <div className="flex flex-1 flex-col items-center justify-center p-4 sm:p-8">
+        <Card className="w-full max-w-lg">
+          <CardHeader className="text-center">
+            <CardTitle className="text-2xl font-bold">
+              Add Your Personal Favourite
+            </CardTitle>
+            <CardDescription>
+              Add a link to your drawer for quick access.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                <div className="grid w-full items-center gap-6">
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <Label htmlFor="name">Name</Label>
+                        <FormControl>
+                          <Input
+                            id="name"
+                            placeholder="Example"
+                            className="rounded-xl p-4"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="link"
+                    render={({ field }) => (
+                      <FormItem>
+                        <Label htmlFor="link">Link</Label>
+                        <FormControl>
+                          <Input
+                            id="link"
+                            placeholder="https://example.com"
+                            className="rounded-xl p-4"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <CardFooter className="flex justify-center p-6">
+                  <Button
+                    type="submit"
+                    className="w-full max-w-xs rounded-xl bg-gray-700 p-6 text-white hover:bg-gray-800"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? (
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    ) : (
+                      'Add'
+                    )}
+                  </Button>
+                </CardFooter>
+              </form>
+            </Form>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }
